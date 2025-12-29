@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>B MONEY - Cloud App</title>
-    <!-- Fonts for Premium Look -->
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     
-    <!-- FIREBASE SDK -->
+    <!-- FIREBASE SDK v8 (Compatible with the logic used) -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     
@@ -32,7 +32,7 @@
         .hidden { display: none !important; }
         .text-gold { color: var(--primary); }
         
-        /* --- ANIMATED "B MONEY" LOGO --- */
+        /* LOGO */
         .b-money-logo {
             font-family: 'Oswald', sans-serif;
             font-size: 2.5rem;
@@ -55,7 +55,7 @@
         
         /* Buttons */
         .btn { 
-            padding: 10px 20px; 
+            padding: 12px 20px; 
             border: none; 
             border-radius: 50px; 
             cursor: pointer; 
@@ -67,29 +67,20 @@
             letter-spacing: 1px;
             position: relative;
             overflow: hidden;
+            margin-top: 10px;
         }
         
-        .btn::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transition: 0.5s;
-        }
-        .btn:hover::before { left: 100%; }
-
         .btn-primary { 
             background: linear-gradient(45deg, #FFD700, #FDB931); 
             color: #000; 
             box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
         }
         .btn-primary:hover {
-            transform: scale(1.02);
+            transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
         }
 
-        .btn-danger { background: linear-gradient(45deg, #ff4444, #cc0000); color: white; }
-        .btn-outline { background: transparent; border: 1px solid var(--text-gray); color: var(--text-gray); font-size: 0.8rem; padding: 8px; margin-top: 20px; border-radius: 8px;}
-
-        /* --- REVAMPED LOGIN SCREEN --- */
+        /* --- AUTH SCREEN --- */
         #auth-section { 
             display: flex; 
             flex-direction: column; 
@@ -101,7 +92,7 @@
         }
         
         .auth-card { 
-            background: rgba(20, 20, 20, 0.7); 
+            background: rgba(20, 20, 20, 0.8); 
             backdrop-filter: blur(15px);
             padding: 40px 30px; 
             border-radius: 25px; 
@@ -114,28 +105,23 @@
 
         .auth-card input { 
             width: 100%; 
-            padding: 16px; 
-            margin: 15px 0; 
+            padding: 15px; 
+            margin: 10px 0; 
             background: rgba(255, 255, 255, 0.05); 
             border: 1px solid rgba(255, 255, 255, 0.1); 
             color: white; 
             border-radius: 12px; 
             outline: none; 
             transition: 0.3s; 
-            font-weight: 500;
         }
-        .auth-card input:focus { 
-            border-color: var(--primary); 
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
-        }
-        .switch-auth { margin-top: 20px; color: #aaa; cursor: pointer; font-size: 0.9rem; text-decoration: underline; transition: 0.3s; }
-        .switch-auth:hover { color: var(--primary); }
+        .auth-card input:focus { border-color: var(--primary); background: rgba(255, 255, 255, 0.1); }
+        
+        .switch-auth { margin-top: 20px; color: #aaa; cursor: pointer; font-size: 0.85rem; text-decoration: underline; }
 
         /* Dashboard Header */
         header { 
             background: rgba(10, 10, 10, 0.95); 
-            padding: 10px 20px; 
+            padding: 15px 20px; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
@@ -144,160 +130,66 @@
             top: 0; 
             z-index: 100; 
             backdrop-filter: blur(10px); 
-            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
         }
-        .logo { 
-            font-family: 'Oswald', sans-serif;
-            font-size: 1.5rem; 
-            background: linear-gradient(45deg, #FFD700, #fff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
+        .logo { font-family: 'Oswald', sans-serif; font-size: 1.5rem; font-weight: bold; color: var(--primary); }
 
         .balance-card { 
             background: linear-gradient(135deg, #1a1a1a, #252525); 
             border: 1px solid var(--primary);
             color: #fff; 
-            padding: 20px 20px; 
-            margin: 15px 15px; 
+            padding: 25px; 
+            margin: 20px 15px; 
             border-radius: 20px; 
             text-align: center; 
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 215, 0, 0.1); 
-            position: relative; overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); 
         }
-        .balance-card::before {
-            content:''; position: absolute; top:-50%; left:-50%; width:200%; height:200%; background:linear-gradient(45deg, transparent, rgba(255,215,0,0.05), transparent); transform:rotate(45deg); pointer-events:none;
-        }
-        .balance-amount { font-size: 2.2rem; font-weight: 800; margin-top: 5px; color: var(--primary); text-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
+        .balance-amount { font-size: 2.5rem; font-weight: 800; color: var(--primary); }
 
-        .section-title { padding: 0 15px; margin-top: 20px; color: var(--text-gray); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
+        /* Sections */
+        .section-title { padding: 0 20px; color: var(--text-gray); font-size: 0.8rem; text-transform: uppercase; font-weight: 700; margin-bottom: 10px;}
         
-        /* --- COMPACT ROW ACTIVE PLANS --- */
-        .active-plans-container { 
-            display: flex; 
-            flex-direction: column; 
-            gap: 8px; 
-            padding: 0 15px 15px 15px; 
-        }
-        
+        /* Active Plans */
+        .active-plans-container { padding: 0 15px; }
         .active-plan-row {
-            background: #121212;
-            border: 1px solid #333;
-            border-radius: 10px;
-            padding: 8px 12px; 
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            transition: 0.2s;
+            background: #151515; border: 1px solid #333; padding: 12px; border-radius: 10px; 
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;
         }
-        .active-plan-row:hover { border-color: var(--primary); background: #1a1a1a; }
+        .row-plan-name { font-weight: bold; font-size: 1rem; }
+        .row-timer { color: var(--green); font-size: 0.8rem; margin-top: 4px; }
 
-        .row-left { display: flex; flex-direction: column; justify-content: center; flex: 1; }
-        .row-plan-name { color: #fff; font-weight: 700; font-size: 0.9rem; }
-        .row-timer { font-family: 'Courier New', monospace; color: var(--green); font-size: 0.75rem; font-weight: bold; letter-spacing: 0.5px;}
-        
-        .row-right { margin-left: 10px; }
-
-
-        /* AVAILABLE PLANS STYLING */
+        /* Available Plans */
         .plans-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 15px; }
-        
         .plan-card { 
-            background: linear-gradient(160deg, #1a1a1a, #0f0f0f);
-            padding: 20px 15px; 
-            border-radius: 15px; 
-            text-align: center; 
-            border: 1px solid #222;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            background: #1a1a1a; border: 1px solid #333; padding: 20px 10px; border-radius: 15px; 
+            text-align: center; transition: 0.3s;
         }
-
-        .plan-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-        }
-
-        .plan-card h4 { color: var(--primary); font-size: 1.2rem; margin-bottom: 5px; font-weight: 700; }
-        .plan-card .price { font-size: 1.3rem; font-weight: bold; color: #fff; margin: 8px 0; }
-        
-        .owned-badge { background: var(--green); color: #000; font-size: 0.7rem; padding: 4px 8px; border-radius: 4px; display: inline-block; margin-bottom: 8px; font-weight: bold; }
+        .plan-card:hover { border-color: var(--primary); transform: translateY(-3px); }
+        .plan-price { color: #fff; font-size: 1.4rem; font-weight: bold; margin: 10px 0; }
+        .plan-name { color: var(--primary); font-weight: bold; }
 
         /* Forms */
         .form-section { padding: 20px; }
-        .info-box { background: #1a1a1a; padding: 15px; border-left: 4px solid var(--primary); margin-bottom: 20px; font-size: 0.9rem; border-radius: 8px; color: #ccc; border: 1px solid #333; }
-        .form-group input, .form-group select { width: 100%; padding: 15px; background: #0f0f0f; border: 1px solid #333; color: white; border-radius: 10px; margin-top: 8px; outline: none; transition: 0.3s; }
-        .form-group input:focus, .form-group select:focus { border-color: var(--primary); background: #1a1a1a; }
-        label { color: #888; font-size: 0.9rem; font-weight: 500; }
-
-        /* List Items */
-        .list-container { padding: 15px; }
-        .list-item { background: #111; padding: 15px; margin-bottom: 12px; border-radius: 12px; border: 1px solid #222; }
-        .list-row { display: flex; justify-content: space-between; margin-bottom: 5px; }
-        
-        /* Admin User Card */
-        .admin-user-card { background: #151515; border: 1px solid #222; padding: 15px; border-radius: 12px; margin-bottom: 15px; position: relative; }
-        .admin-user-header { border-bottom: 1px solid #222; padding-bottom: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-        .user-stat { font-size: 0.9rem; color: #888; margin-bottom: 5px; }
-        .user-stat span { color: #fff; font-weight: 600; margin-left: 5px; }
-        .val-gold { color: var(--primary) !important; }
-        .val-green { color: var(--green) !important; }
-
-        .delete-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: var(--red);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 26px;
-            height: 26px;
-            cursor: pointer;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        .info-box { background: #222; padding: 15px; border-left: 4px solid var(--primary); margin-bottom: 20px; border-radius: 8px; font-size: 0.9rem;}
+        .form-group input, .form-group select { 
+            width: 100%; padding: 15px; background: #111; border: 1px solid #333; 
+            color: white; border-radius: 10px; margin-bottom: 15px; outline: none; 
         }
-
-        /* Maintenance Toggle */
-        .switch-container { display: flex; align-items: center; justify-content: space-between; background: #1a1a1a; padding: 12px 15px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #333; }
-        .switch { position: relative; display: inline-block; width: 50px; height: 26px; }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #555; transition: .4s; border-radius: 34px; }
-        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background-color: var(--red); }
-        input:checked + .slider:before { transform: translateX(24px); }
-
-        /* Maintenance Modal */
-        #maintenance-modal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.98); z-index: 9999;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            text-align: center; padding: 20px;
-        }
-
-        .status-badge { padding: 5px 10px; border-radius: 6px; font-size: 0.75rem; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px;}
-        .status-pending { background: #ffa500; color: black; }
-        .status-approved { background: var(--green); color: white; }
-        .status-rejected { background: var(--red); color: white; }
+        .form-group input:focus { border-color: var(--primary); }
 
         /* Bottom Nav */
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: rgba(10, 10, 10, 0.95); display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #333; z-index: 100; backdrop-filter: blur(10px); padding-bottom: 25px; }
-        .nav-item { text-align: center; color: #666; cursor: pointer; font-size: 0.75rem; flex: 1; transition: 0.3s; }
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #0a0a0a; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #333; z-index: 100; padding-bottom: 25px;}
+        .nav-item { text-align: center; color: #666; cursor: pointer; flex: 1; }
         .nav-item.active { color: var(--primary); }
-        .nav-item.active .nav-icon { transform: translateY(-3px); }
-        .nav-icon { font-size: 1.4rem; display: block; margin-bottom: 2px; transition: 0.3s; }
+        .nav-icon { font-size: 1.2rem; display: block; margin-bottom: 4px; }
 
         /* Toast */
-        #toast { visibility: hidden; min-width: 300px; margin-left: -150px; background-color: #1a1a1a; color: #fff; text-align: center; border-radius: 50px; padding: 16px; position: fixed; z-index: 999; left: 50%; bottom: 100px; font-size: 15px; border: 1px solid var(--primary); box-shadow: 0 10px 30px rgba(0,0,0,0.5); backdrop-filter: blur(10px); }
-        #toast.show { visibility: visible; -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
-        
+        #toast { 
+            visibility: hidden; min-width: 250px; background-color: #333; color: #fff; 
+            text-align: center; border-radius: 50px; padding: 16px; position: fixed; 
+            z-index: 999; left: 50%; bottom: 100px; transform: translateX(-50%); 
+            border: 1px solid var(--primary); font-size: 14px; box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+        }
+        #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
         @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 100px; opacity: 1;} }
         @keyframes fadeout { from {bottom: 100px; opacity: 1;} to {bottom: 0; opacity: 0;} }
 
@@ -305,35 +197,27 @@
 </head>
 <body>
 
-    <div id="toast">Message here</div>
-
-    <!-- MAINTENANCE MODAL -->
-    <div id="maintenance-modal" class="hidden">
-        <div class="b-money-logo">B MONEY</div>
-        <h2 style="color: var(--red); margin-top: 20px; font-weight:bold;">System Under Maintenance</h2>
-        <p style="color: #888; margin-top: 10px;">We are upgrading platform for you.</p>
-    </div>
+    <div id="toast">Notification</div>
 
     <!-- AUTH SECTION -->
     <section id="auth-section">
         <div class="auth-card">
-            <!-- Animated Logo -->
             <div class="b-money-logo">B MONEY</div>
-            
-            <h3 id="auth-title" style="margin-bottom: 10px; color: #ccc; font-weight: 600;">Login Account</h3>
+            <h3 id="auth-title" style="margin-bottom: 20px; color: #fff;">Login Account</h3>
             
             <div class="form-group">
-                <input type="text" id="username" placeholder="Enter Username">
+                <input type="text" id="username" placeholder="Username (e.g. ali123)">
             </div>
             <div class="form-group">
-                <input type="password" id="password" placeholder="Enter Password">
+                <input type="password" id="password" placeholder="Password">
             </div>
-            <!-- NEW: Referral Code Input -->
-            <div class="form-group">
+            
+            <!-- Referral input visible only on Signup -->
+            <div class="form-group hidden" id="signup-fields">
                 <input type="text" id="ref-code-input" placeholder="Referral Code (Optional)">
             </div>
             
-            <button class="btn btn-primary" onclick="handleAuth()">Login Now</button>
+            <button class="btn btn-primary" id="auth-btn" onclick="handleAuth()">Login Now</button>
             
             <p class="switch-auth" onclick="toggleAuth()">New User? Create Account</p>
         </div>
@@ -342,848 +226,357 @@
     <!-- APP SECTION -->
     <section id="app-section" class="hidden">
         <header>
-            <!-- Animated Logo in Header -->
             <div class="logo">B MONEY</div>
-            <div style="font-size: 0.9rem;">
-                <span id="user-display-name" style="color:#fff; font-weight:600;">User</span> 
-                <button onclick="logout()" style="background:none; border:none; color:var(--red); cursor:pointer; font-weight:bold; margin-left:10px;">Logout</button>
+            <div style="font-size: 0.8rem; color: #888;">
+                User: <span id="user-display-name" style="color:var(--primary); font-weight:bold;"></span>
             </div>
         </header>
 
-        <!-- DASHBOARD -->
+        <!-- DASHBOARD VIEW -->
         <div id="view-dashboard">
             <div class="balance-card">
-                <small style="font-weight: 600; letter-spacing: 1px; color:#aaa;">TOTAL BALANCE</small>
+                <small style="letter-spacing: 2px;">TOTAL BALANCE</small>
                 <div class="balance-amount">PKR <span id="display-balance">0</span></div>
             </div>
 
             <h4 class="section-title">Active Plans</h4>
-            <div id="active-plans-container">
-                <!-- Active Plans injected via JS -->
-                <div class="info-box" style="margin: 15px; text-align:center; border-radius:12px; font-size:0.8rem;">Loading plans...</div>
+            <div class="active-plans-container" id="active-plans-container">
+                <div style="text-align:center; color:#666; padding:20px;">No active plans.</div>
             </div>
 
             <h4 class="section-title">Investment Plans</h4>
             <div class="plans-container" id="plans-list">
-                <!-- Plans injected by JS -->
+                <!-- Plans injected via JS -->
             </div>
         </div>
 
-        <!-- INVITE VIEW -->
-        <div id="view-invite" class="hidden invite-container">
-            <div class="form-section">
-                <h2 style="color: var(--primary); margin-bottom: 20px; text-align:center;">Invite & Earn</h2>
-                <div class="ref-box" style="background: #1a1a1a; padding: 20px; border-radius: 15px; border: 1px solid var(--primary); text-align: center; margin-bottom: 20px;">
-                    <p style="color: #888; font-size: 0.9rem;">Share your Referral Code</p>
-                    <div class="ref-code" style="font-size: 1.8rem; font-weight: 800; color: var(--primary); letter-spacing: 2px; margin: 10px 0; font-family: 'Courier New', monospace; background: #000; padding: 10px; border-radius: 8px; border: 1px dashed #444;" id="my-ref-code">LOADING...</div>
-                    <button class="btn btn-primary" style="margin-top:10px;" onclick="copyCode()">Copy Code</button>
-                </div>
-                <div class="info-box">
-                    <h4 style="color: var(--green); margin-bottom:5px;">Bonus Rules:</h4>
-                    <ul style="margin-left: 20px; color: #ccc; font-size: 0.9rem; line-height: 1.6;">
-                        <li>Share your code with friends.</li>
-                        <li>They get a bonus on signup.</li>
-                        <li>When they deposit, you get <strong style="color:var(--primary);">30% Bonus</strong> instantly.</li>
-                    </ul>
-                </div>
-                <h4 style="margin-bottom: 10px;">Your Invited Users</h4>
-                <div id="invite-list"></div>
-            </div>
-        </div>
-
-        <!-- DEPOSIT -->
+        <!-- DEPOSIT VIEW -->
         <div id="view-deposit" class="hidden form-section">
             <h2 style="color: var(--primary); margin-bottom: 20px;">Add Funds</h2>
             <div class="info-box">
-                <p style="margin-bottom:5px;"><strong>Easypaisa:</strong> <span id="deposit-easy" style="color:#fff;">0300-1234567</span></p>
-                <p style="margin-bottom:5px;"><strong>JazzCash:</strong> <span id="deposit-jazz" style="color:#fff;">0300-7654321</span></p>
-                <p style="margin-top:10px; font-size:0.8rem; color:var(--green);">After verification, your payment will be added.”.</p>
+                <p><strong>Easypaisa:</strong> 0300-1234567</p>
+                <p><strong>JazzCash:</strong> 0300-7654321</p>
+                <p style="margin-top:10px; font-size:0.8rem; color:var(--green);">Send amount then submit Transaction ID.</p>
             </div>
-            <label>Payment Method</label>
+            <label>Method</label>
             <select id="dep-method">
                 <option value="Easypaisa">Easypaisa</option>
                 <option value="JazzCash">JazzCash</option>
             </select>
             <label>Amount (PKR)</label>
-            <input type="number" id="dep-amount" placeholder="e.g. 1000">
-            <label>Transaction ID (TrxID)</label>
-            <input type="text" id="dep-trx" placeholder="e.g. 849202...">
-            <button class="btn btn-primary" style="margin-top:15px;" onclick="submitDeposit()">Submit Deposit Request</button>
+            <input type="number" id="dep-amount" placeholder="500">
+            <label>Transaction ID</label>
+            <input type="text" id="dep-trx" placeholder="TRX ID...">
+            <button class="btn btn-primary" onclick="submitDeposit()">Submit Request</button>
         </div>
 
-        <!-- WITHDRAW -->
+        <!-- WITHDRAW VIEW -->
         <div id="view-withdraw" class="hidden form-section">
             <h2 style="color: var(--primary); margin-bottom: 20px;">Withdraw Funds</h2>
             <div class="info-box">
-                <p>Available Balance: <span class="text-gold" style="font-size:1.3rem; font-weight:bold;">PKR <span id="withdraw-avail">0</span></span></p>
-                <p style="font-size:0.8rem; margin-top:5px;">
-                    Minimum Withdrawal: <span class="text-gold">PKR <span id="withdraw-min-limit">500</span></span>
-                </p>
+                <p>Available: <span style="color:var(--primary); font-weight:bold;">PKR <span id="withdraw-avail">0</span></span></p>
             </div>
-            <label>Payment Method</label>
+            <label>Account Number</label>
+            <input type="number" id="with-account" placeholder="03XX-XXXXXXX">
+            <label>Amount (PKR)</label>
+            <input type="number" id="with-amount" placeholder="Min 500">
+            <label>Method</label>
             <select id="with-method">
                 <option value="Easypaisa">Easypaisa</option>
                 <option value="JazzCash">JazzCash</option>
             </select>
-            <label>Account Number</label>
-            <input type="text" id="with-account" placeholder="Your Mobile Number">
-            <label>Amount (PKR)</label>
-            <input type="number" id="with-amount" placeholder="Enter amount">
-            <button class="btn btn-primary" style="margin-top:15px;" onclick="submitWithdraw()">Request Withdrawal</button>
+            <button class="btn btn-primary" onclick="submitWithdraw()">Withdraw Now</button>
         </div>
 
-        <!-- HISTORY -->
-        <div id="view-history" class="hidden list-container">
-            <h3 style="margin-bottom: 20px;">Transaction History</h3>
-            <div id="history-list">
-                <!-- Items -->
+        <!-- INVITE VIEW -->
+        <div id="view-invite" class="hidden form-section">
+            <h2 style="color: var(--primary); text-align: center; margin-bottom: 20px;">Invite & Earn</h2>
+            <div class="info-box" style="text-align: center;">
+                <p>Your Referral Code</p>
+                <h1 id="my-ref-code" style="font-size: 2.5rem; color: #fff; margin: 10px 0;">...</h1>
+                <button class="btn btn-primary" style="width: auto; padding: 10px 30px;" onclick="copyCode()">Copy</button>
             </div>
-        </div>
-
-        <!-- ADMIN -->
-        <div id="view-admin" class="hidden form-section">
-            <h2 style="color: var(--primary); margin-bottom: 20px;">Admin Dashboard</h2>
-            
-            <div class="switch-container">
-                <div>
-                    <strong style="color:#fff;">⚙️ Maintenance Mode</strong><br>
-                    <small style="color:#888;">Block all users access</small>
-                </div>
-                <label class="switch">
-                    <input type="checkbox" id="maintenance-toggle" onchange="toggleMaintenance()">
-                    <span class="slider"></span>
-                </label>
+            <div class="info-box">
+                <p>Share your code. When your friend joins, you get a bonus!</p>
             </div>
-
-            <div style="background: #1a1a1a; padding: 20px; border-radius: 12px; margin-bottom: 25px; border: 1px solid #333;">
-                <h4 style="color:var(--primary); margin-bottom:15px;">⚙️ Global Settings</h4>
-                <label>Easypaisa Number</label> <input type="text" id="admin-easy" style="width:100%; margin-bottom:10px; padding:10px; background:#0f0f0f; border:1px solid #333; color:white; border-radius:8px;">
-                <label>JazzCash Number</label> <input type="text" id="admin-jazz" style="width:100%; margin-bottom:10px; padding:10px; background:#0f0f0f; border:1px solid #333; color:white; border-radius:8px;">
-                <label>Minimum Withdraw (PKR)</label> <input type="number" id="admin-min-withdraw" style="width:100%; margin-bottom:10px; padding:10px; background:#0f0f0f; border:1px solid #333; color:white; border-radius:8px;">
-                <button class="btn btn-success" style="padding:10px;" onclick="saveSettings()">Update Settings</button>
-            </div>
-
-            <h4 class="section-title">All Users</h4>
-            <div id="admin-users-list"></div>
-
-            <h4 class="section-title">Pending Deposits</h4>
-            <div id="admin-deposits-list"></div>
-            
-            <h4 class="section-title">Pending Withdrawals</h4>
-            <div id="admin-withdrawals-list"></div>
         </div>
 
         <!-- BOTTOM NAV -->
-        <nav class="bottom-nav">
-            <div class="nav-item active" onclick="switchView('dashboard')">
-                <span class="nav-icon">🏠</span>Home
+        <div class="bottom-nav">
+            <div class="nav-item active" onclick="switchView('dashboard', this)">
+                <span class="nav-icon">🏠</span>
+                <span>Home</span>
             </div>
-            <div class="nav-item" onclick="switchView('invite')">
-                <span class="nav-icon">🎁</span>Invite
+            <div class="nav-item" onclick="switchView('deposit', this)">
+                <span class="nav-icon">💰</span>
+                <span>Deposit</span>
             </div>
-            <div class="nav-item" onclick="switchView('deposit')">
-                <span class="nav-icon">💳</span>Deposit
+            <div class="nav-item" onclick="switchView('withdraw', this)">
+                <span class="nav-icon">💸</span>
+                <span>Withdraw</span>
             </div>
-            <div class="nav-item" onclick="switchView('withdraw')">
-                <span class="nav-icon">💸</span>Withdraw
+            <div class="nav-item" onclick="switchView('invite', this)">
+                <span class="nav-icon">👥</span>
+                <span>Invite</span>
             </div>
-            <div class="nav-item" onclick="switchView('history')">
-                <span class="nav-icon">📜</span>History
-            </div>
-            <div class="nav-item hidden" id="nav-admin" onclick="switchView('admin')">
-                <span class="nav-icon">🛡️</span>Admin
-            </div>
-        </nav>
+        </div>
     </section>
 
+    <!-- JAVASCRIPT LOGIC -->
     <script>
-        /* --- FIREBASE INITIALIZATION --- */
+        // --- 1. FIREBASE CONFIG (YOUR CONFIG ADDED HERE) ---
         const firebaseConfig = {
-            apiKey: "AIzaSyDu1O7gAtTzHAPmgbd7S4zkc_QjKbzvdZ0",
-            authDomain: "bmoney-invesmentapp.firebaseapp.com",
-            databaseURL: "https://bmoney-invesmentapp-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "bmoney-invesmentapp",
-            storageBucket: "bmoney-invesmentapp.firebasestorage.app",
-            messagingSenderId: "502250536570",
-            appId: "1:502250536570:web:a3c4862392a5d4a709c5c3",
-            measurementId: "G-E1P3PBK69R"
+            apiKey: "AIzaSyB7atEHWnOo_EzCuFxBRg4xWF51x4atfRQ",
+            authDomain: "wingo-new-pro.firebaseapp.com",
+            databaseURL: "https://wingo-new-pro-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "wingo-new-pro",
+            storageBucket: "wingo-new-pro.firebasestorage.app",
+            messagingSenderId: "574707809146",
+            appId: "1:574707809146:web:fb0d53fc0a202c4d2934c3",
+            measurementId: "G-WED3TVXE62"
         };
 
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
-
-        /* --- STATE VARIABLES --- */
-        let currentUser = null; // Stores { username, password, balance, ... }
-        let currentUserKey = null; // Firebase Key for updates
+        
+        // State Variables
+        let currentUser = null;
         let isLoginMode = true;
-        let timerInterval = null;
-        
-        // Global Data Cache (Synced with Firebase)
-        let allUsers = {};
-        let plans = {};
-        let settings = {};
-        let requests = {};
 
-        const DEFAULT_PLANS = [
-            { id: 1, name: 'VIP 1', price: 500, daily: 50 },
-            { id: 2, name: 'VIP 2', price: 1500, daily: 180 },
-            { id: 3, name: 'VIP 3', price: 3000, daily: 400 },
-            { id: 4, name: 'VIP 4', price: 8000, daily: 1200 },
-            { id: 5, name: 'VIP 5', price: 15000, daily: 2500 },
-            { id: 6, name: 'VIP 6', price: 30000, daily: 5500 },
-        ];
+        // --- 2. AUTHENTICATION LOGIC ---
 
-        /* --- INIT & LISTENERS --- */
-        function initData() {
-            // Listen for Plans
-            db.ref('plans').on('value', snapshot => {
-                const data = snapshot.val();
-                if(!data) {
-                    // Initialize Plans if empty
-                    DEFAULT_PLANS.forEach(p => {
-                        db.ref('plans').child(p.id).set(p);
-                    });
-                    plans = {}; // Will be updated by listener
-                } else {
-                    plans = data;
-                    if(currentUser && !currentUser.isAdmin) updateDashboard();
-                }
-            });
-
-            // Listen for Settings
-            db.ref('settings').on('value', snapshot => {
-                const data = snapshot.val();
-                settings = data || {
-                    easypaisa: '0300-1234567',
-                    jazzcash: '0300-7654321',
-                    maintenance: false,
-                    minWithdraw: 500
-                };
-                if(currentUser) updateUIWithSettings();
-            });
-
-            // Listen for Requests
-            db.ref('requests').on('value', snapshot => {
-                const data = snapshot.val();
-                requests = data || {};
-                if(currentUser && !currentUser.isAdmin) renderHistory();
-                if(currentUser && currentUser.isAdmin) renderAdminReqs();
-            });
-
-            // Listen for Users
-            db.ref('users').on('value', snapshot => {
-                allUsers = snapshot.val() || {};
-                if(currentUser) {
-                    // Check if current user was updated by Admin
-                    const updatedUser = Object.values(allUsers).find(u => u.username === currentUser.username);
-                    if(updatedUser) {
-                        // Merge updates (except session sensitive data if needed)
-                        currentUser.balance = updatedUser.balance;
-                        currentUser.totalEarnings = updatedUser.totalEarnings;
-                        if(!currentUser.isAdmin) updateDashboard();
-                    }
-                }
-                if(currentUser && currentUser.isAdmin) renderAdminUsers();
-            });
-        }
-
-        // Start Initialization
-        initData();
-
-        /* --- FUNCTIONS --- */
-        
         function toggleAuth() {
             isLoginMode = !isLoginMode;
-            document.getElementById('auth-title').innerText = isLoginMode ? 'Login Account' : 'Create Account';
-            document.querySelector('.switch-auth').innerText = isLoginMode ? "New User? Create Account" : "Already have account? Login";
+            const title = document.getElementById('auth-title');
+            const btn = document.getElementById('auth-btn');
+            const switchText = document.querySelector('.switch-auth');
+            const signupFields = document.getElementById('signup-fields');
+
+            if (isLoginMode) {
+                title.innerText = "Login Account";
+                btn.innerText = "Login Now";
+                switchText.innerText = "New User? Create Account";
+                signupFields.classList.add('hidden');
+            } else {
+                title.innerText = "Create Account";
+                btn.innerText = "Register Now";
+                switchText.innerText = "Already have account? Login";
+                signupFields.classList.remove('hidden');
+            }
         }
 
         function handleAuth() {
-            const userIn = document.getElementById('username').value.trim();
-            const passIn = document.getElementById('password').value.trim();
-            const refCodeIn = document.getElementById('ref-code-input').value.trim().toUpperCase();
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const refCode = document.getElementById('ref-code-input').value.trim();
 
-            if (userIn === "" || passIn === "") {
-                return showToast("Please fill Username and Password!");
-            }
-
-            // Admin Check (Hardcoded but stored in DB as well conceptually)
-            if (userIn === 'admin' && passIn === 'admin') {
-                // For Admin, we don't use the user list logic in this prototype to allow easy access even if no DB connection
-                currentUser = { username: 'Admin', isAdmin: true };
-                showToast("Admin Logged In");
-                loginSuccess();
+            if (!username || !password) {
+                showToast("Please fill all fields");
                 return;
             }
 
-            // Fetch users to check
-            db.ref('users').once('value').then(snapshot => {
-                const usersData = snapshot.val() || {};
-                const userKeys = Object.keys(usersData);
-                const existingUser = userKeys.find(key => usersData[key].username === userIn && usersData[key].password === passIn);
+            // Loading effect
+            const btn = document.getElementById('auth-btn');
+            const originalText = btn.innerText;
+            btn.innerText = "Processing...";
+            btn.disabled = true;
 
-                if (isLoginMode) {
-                    // Maintenance Check
-                    if (settings.maintenance) {
-                        alert("System is under maintenance.");
-                        return;
-                    }
-
-                    if (existingUser) {
-                        currentUser = usersData[existingUser];
-                        currentUserKey = existingUser; // Store key for updates
-                        showToast(`Welcome back, ${currentUser.username}!`);
-                        loginSuccess();
-                    } else {
-                        showToast("Invalid Username or Password");
-                    }
-                } else {
-                    // Register
-                    if (settings.maintenance) {
-                        alert("System is under maintenance.");
-                        return;
-                    }
-
-                    const usernameExists = userKeys.some(key => usersData[key].username === userIn);
-                    if (usernameExists) {
-                        showToast("Username already exists!");
-                    } else {
-                        // Check Referral Code
-                        let referredBy = null;
-                        if(refCodeIn) {
-                            const referrerKey = Object.keys(usersData).find(key => usersData[key].referralCode === refCodeIn);
-                            if(referrerKey) {
-                                referredBy = usersData[referrerKey].username;
-                            } else {
-                                return showToast("Invalid Referral Code");
-                            }
+            if (isLoginMode) {
+                // --- LOGIN ---
+                db.ref('users/' + username).once('value')
+                .then((snapshot) => {
+                    if (snapshot.exists()) {
+                        const userData = snapshot.val();
+                        if (userData.password === password) {
+                            showToast("Welcome Back!");
+                            loginSuccess(username);
+                        } else {
+                            showToast("Wrong Password!");
                         }
+                    } else {
+                        showToast("User not found!");
+                    }
+                })
+                .catch((error) => {
+                    console.error("Login Error:", error);
+                    showToast("Connection Failed: " + error.message);
+                })
+                .finally(() => {
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                });
 
+            } else {
+                // --- SIGNUP ---
+                db.ref('users/' + username).once('value')
+                .then((snapshot) => {
+                    if (snapshot.exists()) {
+                        showToast("Username already taken!");
+                    } else {
+                        // Create User
                         const newUser = {
-                            username: userIn,
-                            password: passIn,
+                            password: password,
                             balance: 0,
-                            totalEarnings: 0,
-                            activePlans: [], 
-                            referralCode: generateRefCode(),
-                            referredBy: referredBy,
-                            joinedAt: new Date().toISOString()
+                            joined: new Date().toISOString(),
+                            referralCode: username.toUpperCase() + Math.floor(Math.random() * 1000),
+                            referrer: refCode || "none"
                         };
 
-                        // Push to Firebase
-                        db.ref('users').push(newUser).then((snap) => {
-                            currentUser = newUser;
-                            currentUserKey = snap.key;
-                            showToast("Account Created Successfully!");
-                            loginSuccess();
-                        });
+                        return db.ref('users/' + username).set(newUser);
                     }
-                }
-            });
-        }
-
-        function generateRefCode() {
-            return 'BM' + Math.floor(1000 + Math.random() * 9000);
-        }
-
-        function loginSuccess() {
-            document.getElementById('auth-section').classList.add('hidden');
-            document.getElementById('app-section').classList.remove('hidden');
-            document.getElementById('user-display-name').innerText = currentUser.username;
-
-            if (currentUser.isAdmin) {
-                document.getElementById('nav-admin').classList.remove('hidden');
-                loadAdminPanel();
-            } else {
-                document.getElementById('nav-admin').classList.add('hidden');
-                updateDashboard();
-                switchView('dashboard');
+                })
+                .then(() => {
+                    showToast("Account Created!");
+                    loginSuccess(username);
+                })
+                .catch((error) => {
+                    console.error("Signup Error:", error);
+                    showToast("Error: " + error.message);
+                })
+                .finally(() => {
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                });
             }
         }
 
-        function logout() {
-            if(timerInterval) clearInterval(timerInterval);
-            currentUser = null;
-            currentUserKey = null;
-            location.reload();
-        }
-
-        /* --- DASHBOARD LOGIC --- */
-        function updateDashboard() {
-            if(!currentUser) return;
-            document.getElementById('display-balance').innerText = currentUser.balance.toLocaleString();
-            renderAvailablePlans();
-            renderActivePlans();
-            startTimerLoop();
-        }
-
-        function renderAvailablePlans() {
-            const container = document.getElementById('plans-list');
-            container.innerHTML = '';
+        function loginSuccess(username) {
+            currentUser = username;
+            document.getElementById('auth-section').classList.add('hidden');
+            document.getElementById('app-section').classList.remove('hidden');
+            document.getElementById('user-display-name').innerText = username;
             
-            Object.values(plans).forEach(plan => {
-                const isOwned = currentUser.activePlans.some(p => p.planId === plan.id);
+            // Load Data
+            loadUserData();
+        }
 
-                const div = document.createElement('div');
-                div.className = 'plan-card';
-                div.innerHTML = `
-                    ${isOwned ? '<span class="owned-badge">✓ OWNED</span>' : ''}
-                    <h4>${plan.name}</h4>
-                    <div class="price">PKR ${plan.price}</div>
-                    <div style="font-size:0.8rem; color:#888; margin-bottom:10px;">Daily: PKR ${plan.daily}</div>
-                    ${!isOwned ? 
-                        `<button class="btn btn-primary" style="padding: 8px; font-size:0.8rem;" onclick="buyPlan(${plan.id})">Buy Plan</button>` : 
-                        `<button class="btn btn-outline" style="padding: 8px; font-size:0.8rem;" disabled>Active</button>`
-                    }
-                `;
-                container.appendChild(div);
+        // --- 3. DATA HANDLING ---
+
+        function loadUserData() {
+            if (!currentUser) return;
+
+            const userRef = db.ref('users/' + currentUser);
+
+            // Realtime Listener
+            userRef.on('value', (snapshot) => {
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    // Update UI
+                    const bal = data.balance || 0;
+                    document.getElementById('display-balance').innerText = bal;
+                    document.getElementById('withdraw-avail').innerText = bal;
+                    document.getElementById('my-ref-code').innerText = data.referralCode || "N/A";
+                    
+                    // Load Plans if any
+                    renderPlans(data.plans);
+                }
+            }, (error) => {
+                console.error("Data Load Error:", error);
+                showToast("Data sync error");
             });
         }
 
-        function renderActivePlans() {
+        function renderPlans(plans) {
             const container = document.getElementById('active-plans-container');
-            container.innerHTML = '';
+            container.innerHTML = ""; 
 
-            if (!currentUser.activePlans || currentUser.activePlans.length === 0) {
-                container.innerHTML = '<div class="info-box" style="margin: 15px; text-align:center; border-radius:12px; font-size:0.8rem;">You have no active plans. Invest now.</div>';
+            if (!plans) {
+                container.innerHTML = `<div style="text-align:center; color:#555; padding:10px; font-size:0.8rem;">No active plans.</div>`;
                 return;
             }
 
-            currentUser.activePlans.forEach((activePlanObj, index) => {
-                const planDetails = Object.values(plans).find(p => p.id === activePlanObj.planId);
-                if(!planDetails) return;
-
+            Object.keys(plans).forEach(key => {
+                const plan = plans[key];
                 const div = document.createElement('div');
                 div.className = 'active-plan-row';
                 div.innerHTML = `
                     <div class="row-left">
-                        <div class="row-plan-name">${planDetails.name}</div>
-                        <div id="timer-${index}" class="row-timer">00:00:00</div>
+                        <div class="row-plan-name">${plan.name}</div>
+                        <div class="row-timer">Daily: ${plan.roi}%</div>
                     </div>
-                    <div class="row-right">
-                        <button id="btn-${index}" class="btn btn-primary" 
-                            style="padding: 5px 12px; min-width: 70px; font-size:0.75rem;" 
-                            onclick="claimReward(${index})">
-                            Claim
-                        </button>
+                    <div class="row-right" style="text-align:right;">
+                        <div style="color:var(--primary); font-weight:bold;">PKR ${plan.amount}</div>
                     </div>
                 `;
                 container.appendChild(div);
             });
-            
-            updateTimers();
         }
 
-        // --- TIMER LOGIC ---
-        function startTimerLoop() {
-            if(timerInterval) clearInterval(timerInterval);
-            timerInterval = setInterval(updateTimers, 1000);
-        }
+        // --- 4. APP FEATURES ---
 
-        function updateTimers() {
-            if(!currentUser) return;
-            const now = new Date().getTime();
-
-            currentUser.activePlans.forEach((activePlanObj, index) => {
-                const planDetails = Object.values(plans).find(p => p.id === activePlanObj.planId);
-                const timerEl = document.getElementById(`timer-${index}`);
-                const btnEl = document.getElementById(`btn-${index}`);
-                
-                if(!timerEl || !btnEl) return;
-
-                const last = activePlanObj.lastClaim ? new Date(activePlanObj.lastClaim).getTime() : 0;
-                const nextClaimTime = last + 24 * 60 * 60 * 1000;
-                const diff = nextClaimTime - now;
-
-                if (diff <= 0) {
-                    timerEl.innerText = "Ready";
-                    timerEl.style.color = "#fff";
-                    btnEl.innerText = "Claim";
-                    btnEl.classList.remove('btn-outline');
-                    btnEl.classList.add('btn-primary');
-                    btnEl.disabled = false;
-                } else {
-                    const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                    const s = Math.floor((diff % (1000 * 60)) / 1000);
-                    
-                    const hStr = h < 10 ? '0'+h : h;
-                    const mStr = m < 10 ? '0'+m : m;
-                    const sStr = s < 10 ? '0'+s : s;
-
-                    timerEl.innerText = `${hStr}:${mStr}:${sStr}`;
-                    timerEl.style.color = "var(--green)";
-                    btnEl.innerText = "Wait";
-                    btnEl.classList.remove('btn-primary');
-                    btnEl.classList.add('btn-outline');
-                    btnEl.disabled = true;
-                }
-            });
-        }
-
-        function buyPlan(planId) {
-            const plan = Object.values(plans).find(p => p.id === planId);
-            
-            if (currentUser.activePlans.some(p => p.planId === planId)) {
-                return showToast("You already own this plan!");
-            }
-
-            if (currentUser.balance >= plan.price) {
-                // Optimistic Update
-                const newBalance = currentUser.balance - plan.price;
-                currentUser.balance = newBalance;
-                const newPlans = [...currentUser.activePlans, { planId: planId, lastClaim: null }];
-                
-                // Push to Firebase
-                db.ref(`users/${currentUserKey}`).update({
-                    balance: newBalance,
-                    activePlans: newPlans
-                }).then(() => {
-                    showToast(`Success! You bought ${plan.name}`);
-                });
-            } else {
-                showToast("Insufficient Balance! Deposit money first.");
-            }
-        }
-
-        function claimReward(index) {
-            const activePlan = currentUser.activePlans[index];
-            const planDetails = Object.values(plans).find(p => p.id === activePlan.planId);
-            
-            const now = new Date().getTime();
-            const last = activePlan.lastClaim ? new Date(activePlan.lastClaim).getTime() : 0;
-
-            if (now - last >= 24 * 60 * 60 * 1000) {
-                const newBalance = currentUser.balance + planDetails.daily;
-                const newEarnings = (currentUser.totalEarnings || 0) + planDetails.daily;
-                
-                // Update active plan array
-                const updatedPlans = [...currentUser.activePlans];
-                updatedPlans[index].lastClaim = new Date().toISOString();
-
-                // Update Firebase
-                db.ref(`users/${currentUserKey}`).update({
-                    balance: newBalance,
-                    totalEarnings: newEarnings,
-                    activePlans: updatedPlans
-                }).then(() => {
-                    showToast(`Claimed PKR ${planDetails.daily} from ${planDetails.name}`);
-                });
-            } else {
-                showToast("Not ready yet!");
-            }
-        }
-
-        /* --- FINANCIAL LOGIC --- */
         function submitDeposit() {
             const method = document.getElementById('dep-method').value;
             const amount = parseInt(document.getElementById('dep-amount').value);
             const trx = document.getElementById('dep-trx').value;
 
-            if (!amount || !trx) return showToast("Please enter amount and TrxID");
-            
-            const reqData = {
-                id: Date.now(),
-                type: 'deposit',
-                username: currentUser.username,
-                method, amount, trxId: trx,
+            if (!amount || !trx) {
+                showToast("Enter Amount & TrxID");
+                return;
+            }
+
+            const reqRef = db.ref('depositRequests').push();
+            reqRef.set({
+                user: currentUser,
+                method: method,
+                amount: amount,
+                trxId: trx,
                 status: 'pending',
-                date: new Date().toLocaleDateString(),
-                referralBonusPaid: false
-            };
-            
-            db.ref('requests').push(reqData).then(() => {
-                showToast("Deposit submitted! Wait for Admin approval.");
-                switchView('history');
-                document.getElementById('dep-amount').value = '';
-                document.getElementById('dep-trx').value = '';
-            });
+                date: new Date().toISOString()
+            }).then(() => {
+                showToast("Request Submitted!");
+                document.getElementById('dep-amount').value = "";
+                document.getElementById('dep-trx').value = "";
+            }).catch(err => showToast("Error: " + err.message));
         }
 
         function submitWithdraw() {
-            const method = document.getElementById('with-method').value;
-            const account = document.getElementById('with-account').value;
             const amount = parseInt(document.getElementById('with-amount').value);
-
-            if (!amount || !account) return showToast("Please enter details");
-            if (amount > currentUser.balance) return showToast("Not enough balance!");
+            const account = document.getElementById('with-account').value;
+            const method = document.getElementById('with-method').value;
             
-            if (amount < settings.minWithdraw) {
-                return showToast(`Minimum withdrawal is PKR ${settings.minWithdraw}`);
-            }
+            db.ref('users/' + currentUser + '/balance').once('value')
+            .then(snap => {
+                const currentBal = snap.val() || 0;
+                if (amount > currentBal) {
+                    showToast("Insufficient Balance!");
+                    return;
+                }
+                if (amount < 500) {
+                    showToast("Min withdraw 500");
+                    return;
+                }
 
-            const reqData = {
-                id: Date.now(),
-                type: 'withdraw',
-                username: currentUser.username,
-                method, account, amount,
-                status: 'pending',
-                date: new Date().toLocaleDateString()
-            };
-
-            db.ref('requests').push(reqData).then(() => {
-                showToast("Withdrawal requested!");
-                switchView('history');
-                document.getElementById('with-amount').value = '';
-            });
-        }
-
-        function renderHistory() {
-            const container = document.getElementById('history-list');
-            container.innerHTML = '';
-            
-            const myReqs = Object.values(requests).filter(r => r.username === currentUser.username).reverse();
-
-            if (myReqs.length === 0) {
-                container.innerHTML = '<p style="text-align:center; color:#666;">No transactions yet.</p>';
-                return;
-            }
-
-            myReqs.forEach(req => {
-                const div = document.createElement('div');
-                div.className = 'list-item';
-                let statusColor = req.status === 'approved' ? 'status-approved' : (req.status === 'rejected' ? 'status-rejected' : 'status-pending');
-                
-                div.innerHTML = `
-                    <div class="list-row">
-                        <span style="color:var(--primary); font-weight:bold; font-size:1rem;">${req.type.toUpperCase()}</span>
-                        <span style="color:#888; font-size:0.8rem;">${req.date}</span>
-                    </div>
-                    <div class="list-row" style="margin-top:8px;">
-                        <span style="color:#aaa; font-size:0.9rem;">Ref: ${req.trxId || req.account || '-'}</span>
-                        <span style="color:#fff; font-weight:bold;">PKR ${req.amount}</span>
-                    </div>
-                    <div style="margin-top:8px; text-align:right">
-                        <span class="status-badge ${statusColor}">${req.status}</span>
-                    </div>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        /* --- INVITE LOGIC --- */
-        function renderInvitePage() {
-            document.getElementById('my-ref-code').innerText = currentUser.referralCode || 'LOADING...';
-            
-            const container = document.getElementById('invite-list');
-            container.innerHTML = '';
-
-            const invitedUsers = Object.values(allUsers).filter(u => u.referredBy === currentUser.username);
-
-            if(invitedUsers.length === 0) {
-                container.innerHTML = '<p style="text-align:center; color:#666; font-size:0.8rem;">No one joined yet.</p>';
-                return;
-            }
-
-            invitedUsers.forEach(u => {
-                const div = document.createElement('div');
-                div.className = 'ref-list-item';
-                div.style = "background: #151515; padding: 15px; border-radius: 10px; margin-bottom: 10px; border: 1px solid #222; display: flex; justify-content: space-between; align-items: center;";
-                div.innerHTML = `
-                    <div>
-                        <strong style="color:var(--primary);">${u.username}</strong><br>
-                        <small style="color:#888;">Joined: ${new Date(u.joinedAt).toLocaleDateString()}</small>
-                    </div>
-                    <span class="owned-badge" style="font-size:0.7rem;">Joined</span>
-                `;
-                container.appendChild(div);
+                const reqRef = db.ref('withdrawRequests').push();
+                reqRef.set({
+                    user: currentUser,
+                    amount: amount,
+                    account: account,
+                    method: method,
+                    status: 'pending'
+                }).then(() => {
+                    showToast("Withdraw Request Sent!");
+                });
             });
         }
 
         function copyCode() {
             const code = document.getElementById('my-ref-code').innerText;
-            const el = document.createElement('textarea');
-            el.value = code;
-            document.body.appendChild(el);
-            el.select();
-            document.execCommand('copy');
-            document.body.removeChild(el);
-            showToast("Code Copied to Clipboard!");
+            navigator.clipboard.writeText(code).then(() => showToast("Code Copied!"));
         }
 
-        /* --- ADMIN LOGIC --- */
-        function loadAdminPanel() {
-            document.getElementById('auth-section').classList.add('hidden');
-            document.getElementById('app-section').classList.remove('hidden');
-            document.getElementById('maintenance-toggle').checked = settings.maintenance;
-            document.getElementById('admin-easy').value = settings.easypaisa;
-            document.getElementById('admin-jazz').value = settings.jazzcash;
-            document.getElementById('admin-min-withdraw').value = settings.minWithdraw;
-            renderAdminReqs();
-            renderAdminUsers(); 
-        }
+        // --- UI HELPERS ---
 
-        function toggleMaintenance() {
-            const newStatus = !settings.maintenance;
-            db.ref('settings').update({ maintenance: newStatus }).then(() => {
-                showToast(`Maintenance Mode is now ${newStatus ? "ON" : "OFF"}`);
-            });
-        }
+        function switchView(viewName, navElement) {
+            document.getElementById('view-dashboard').classList.add('hidden');
+            document.getElementById('view-deposit').classList.add('hidden');
+            document.getElementById('view-withdraw').classList.add('hidden');
+            document.getElementById('view-invite').classList.add('hidden');
 
-        function deleteUser(username, key) {
-            if(confirm(`Are you sure you want to BAN user "${username}"?`)) {
-                db.ref(`users/${key}`).remove().then(() => {
-                    showToast(`User ${username} has been Banned`);
-                });
-            }
-        }
+            document.getElementById('view-' + viewName).classList.remove('hidden');
 
-        function renderAdminUsers() {
-            const container = document.getElementById('admin-users-list');
-            container.innerHTML = '';
-
-            const usersList = Object.keys(allUsers).map(key => ({...allUsers[key], key}));
-
-            if(usersList.length === 0) {
-                container.innerHTML = '<small style="color:#666">No users registered yet.</small>';
-                return;
-            }
-
-            usersList.forEach(u => {
-                let planNames = "No Plans";
-                if(u.activePlans && u.activePlans.length > 0) {
-                    const names = u.activePlans.map(ap => {
-                        const p = Object.values(plans).find(pl => pl.id === ap.planId);
-                        return p ? p.name : 'Unknown';
-                    });
-                    planNames = names.join(', ');
-                }
-                
-                const earnings = u.totalEarnings || 0; 
-
-                const div = document.createElement('div');
-                div.className = 'admin-user-card';
-                div.innerHTML = `
-                    <button class="delete-btn" onclick="deleteUser('${u.username}', '${u.key}')" title="Ban User">✖</button>
-                    <div class="admin-user-header">
-                        <strong style="color:var(--primary); font-size:1.1rem;">${u.username}</strong>
-                        <small style="color:#888; font-size:0.75rem;">Joined: ${new Date(u.joinedAt).toLocaleDateString()}</small>
-                    </div>
-                    <div class="user-stat">Password: <span style="color:#aaa;">${u.password}</span></div>
-                    <div class="user-stat">Plans: <span class="val-gold">${planNames}</span></div>
-                    <div class="user-stat">Balance: <span>PKR ${u.balance.toLocaleString()}</span></div>
-                    <div class="user-stat">Total Earnings: <span class="val-green">PKR ${earnings.toLocaleString()}</span></div>
-                    <div class="user-stat">Referrer: <span>${u.referredBy || 'None'}</span></div>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        function renderAdminReqs() {
-            const list = document.getElementById('admin-deposits-list');
-            const wList = document.getElementById('admin-withdrawals-list');
-            list.innerHTML = ''; wList.innerHTML = '';
-
-            const reqsList = Object.keys(requests).map(key => ({...requests[key], key}));
-
-            reqsList.forEach(req => {
-                if (req.status !== 'pending') return;
-
-                const div = document.createElement('div');
-                div.className = 'list-item';
-                div.innerHTML = `
-                    <div class="list-row">
-                        <strong style="color:var(--primary)">${req.username}</strong>
-                        <strong>PKR ${req.amount}</strong>
-                    </div>
-                    <div class="list-row">
-                        <small>${req.method}</small>
-                        <small>Ref: ${req.trxId || req.account}</small>
-                    </div>
-                    <div style="margin-top:8px; text-align:right">
-                        <button class="btn btn-success" style="width:auto; padding:5px 12px; font-size:0.75rem; margin-right:5px;" onclick="processReq('${req.key}', 'approved')">✔</button>
-                        <button class="btn btn-danger" style="width:auto; padding:5px 12px; font-size:0.75rem;" onclick="processReq('${req.key}', 'rejected')">✖</button>
-                    </div>
-                `;
-                
-                if (req.type === 'deposit') list.appendChild(div);
-                else wList.appendChild(div);
-            });
-
-            if(list.innerHTML === '') list.innerHTML = '<small style="color:#666">No pending deposits</small>';
-            if(wList.innerHTML === '') wList.innerHTML = '<small style="color:#666">No pending withdrawals</small>';
-        }
-
-        function processReq(reqKey, action) {
-            const req = requests[reqKey];
-            
-            // Find user key associated with request
-            const userKey = Object.keys(allUsers).find(key => allUsers[key].username === req.username);
-            
-            if (!userKey) return;
-
-            const updates = {};
-            updates[`requests/${reqKey}/status`] = action;
-
-            if (action === 'approved') {
-                if (req.type === 'deposit') {
-                    updates[`users/${userKey}/balance`] = allUsers[userKey].balance + req.amount;
-                    
-                    // REFERRAL BONUS LOGIC
-                    const user = allUsers[userKey];
-                    if(user.referredBy && !req.referralBonusPaid) {
-                        const referrerKey = Object.keys(allUsers).find(key => allUsers[key].username === user.referredBy);
-                        if(referrerKey) {
-                            const bonus = Math.floor(req.amount * 0.30);
-                            updates[`users/${referrerKey}/balance`] = allUsers[referrerKey].balance + bonus;
-                            updates[`requests/${reqKey}/referralBonusPaid`] = true;
-                        }
-                    }
-
-                } else if (req.type === 'withdraw') {
-                    updates[`users/${userKey}/balance`] = allUsers[userKey].balance - req.amount;
-                }
-            }
-
-            db.ref().update(updates).then(() => {
-                showToast(`Request ${action}`);
-            });
-        }
-
-        function saveSettings() {
-            const newSettings = {
-                easypaisa: document.getElementById('admin-easy').value,
-                jazzcash: document.getElementById('admin-jazz').value,
-                minWithdraw: parseInt(document.getElementById('admin-min-withdraw').value),
-                maintenance: settings.maintenance // keep existing state unless toggle used
-            };
-            
-            db.ref('settings').update(newSettings).then(() => {
-                showToast("Settings Saved");
-            });
-        }
-
-        /* --- UTILS --- */
-        function switchView(viewName) {
-            ['dashboard', 'invite', 'deposit', 'withdraw', 'history', 'admin'].forEach(v => {
-                document.getElementById(`view-${v}`).classList.add('hidden');
-            });
-            document.getElementById(`view-${viewName}`).classList.remove('hidden');
-
-            if (viewName === 'dashboard') {
-                document.getElementById('nav-admin').classList.add('hidden');
-                updateDashboard();
-            }
-            if (viewName === 'invite') {
-                document.getElementById('nav-admin').classList.add('hidden');
-                renderInvitePage();
-            }
-            if (viewName === 'deposit') {
-                document.getElementById('deposit-easy').innerText = settings.easypaisa;
-                document.getElementById('deposit-jazz').innerText = settings.jazzcash;
-            }
-            if (viewName === 'withdraw') {
-                document.getElementById('withdraw-avail').innerText = currentUser.balance;
-                document.getElementById('withdraw-min-limit').innerText = settings.minWithdraw;
-            }
-            if (viewName === 'history') {
-                renderHistory();
-            }
-            if (viewName === 'admin') {
-                renderAdminReqs();
-                renderAdminUsers();
-            }
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            if(navElement) navElement.classList.add('active');
         }
 
         function showToast(msg) {
@@ -1191,6 +584,51 @@
             x.innerText = msg;
             x.className = "show";
             setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+        }
+
+        // Populate Plans Grid
+        const plansData = [
+            { id: 1, name: "Starter", price: 500, roi: 10 },
+            { id: 2, name: "Basic", price: 1000, roi: 12 },
+            { id: 3, name: "Pro", price: 5000, roi: 15 },
+            { id: 4, name: "VIP", price: 10000, roi: 20 },
+        ];
+
+        const plansList = document.getElementById('plans-list');
+        plansData.forEach(p => {
+            const el = document.createElement('div');
+            el.className = 'plan-card';
+            el.innerHTML = `
+                <div class="plan-name">${p.name}</div>
+                <div class="plan-price">PKR ${p.price}</div>
+                <div style="color:#888; font-size:0.8rem;">Daily: ${p.roi}%</div>
+                <button class="btn btn-primary" style="font-size:0.7rem; padding: 8px;" onclick="buyPlan('${p.name}', ${p.price}, ${p.roi})">Buy</button>
+            `;
+            plansList.appendChild(el);
+        });
+
+        function buyPlan(name, price, roi) {
+            db.ref('users/' + currentUser + '/balance').once('value')
+            .then(snap => {
+                const bal = snap.val() || 0;
+                if(bal < price) {
+                    showToast("Insufficient Balance!");
+                    return;
+                }
+
+                db.ref('users/' + currentUser + '/balance').set(bal - price);
+
+                const newPlanRef = db.ref('users/' + currentUser + '/plans').push();
+                newPlanRef.set({
+                    name: name,
+                    amount: price,
+                    roi: roi,
+                    startDate: new Date().toISOString()
+                }).then(() => {
+                    showToast("Plan Activated!");
+                });
+
+            }).catch(e => showToast(e.message));
         }
 
     </script>

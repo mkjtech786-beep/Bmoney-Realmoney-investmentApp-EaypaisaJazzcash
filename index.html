@@ -2,40 +2,47 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>B MONEY - Cloud App</title>
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     
-    <!-- FIREBASE SDK v8 (Compatible with the logic used) -->
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- FIREBASE SDK v8 -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     
     <style>
-        /* CSS STYLING */
+        /* --- CSS VARIABLES --- */
         :root {
             --primary: #FFD700;
             --primary-dark: #B8860B;
             --bg-dark: #050505;
-            --bg-card: #1a1a1a;
+            --bg-card: #121212;
             --text-light: #FFFFFF;
             --text-gray: #B0B0B0;
             --green: #00C851;
             --red: #ff4444;
-            --glass: rgba(255, 255, 255, 0.08);
+            --orange: #ffbb33;
+            --glass: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        
-        body { background-color: var(--bg-dark); color: var(--text-light); padding-bottom: 80px; overflow-x: hidden; }
-
+        /* --- RESET & BASE --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--bg-dark); color: var(--text-light); padding-bottom: 90px; overflow-x: hidden; min-height: 100vh; }
         .hidden { display: none !important; }
         .text-gold { color: var(--primary); }
         
-        /* LOGO */
+        /* --- LOGO ANIMATION --- */
         .b-money-logo {
             font-family: 'Oswald', sans-serif;
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             letter-spacing: 2px;
             font-weight: 700;
             background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
@@ -46,179 +53,195 @@
             animation: shine 4s linear infinite;
             text-align: center;
             margin-bottom: 10px;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
         }
-
-        @keyframes shine {
-            to { background-position: 200% center; }
-        }
+        @keyframes shine { to { background-position: 200% center; } }
         
-        /* Buttons */
+        /* --- COMPONENTS --- */
         .btn { 
-            padding: 12px 20px; 
-            border: none; 
-            border-radius: 50px; 
-            cursor: pointer; 
-            font-weight: 700; 
-            transition: all 0.3s ease; 
-            width: 100%; 
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            position: relative;
-            overflow: hidden;
-            margin-top: 10px;
+            padding: 14px 20px; border: none; border-radius: 50px; cursor: pointer; 
+            font-weight: 700; transition: all 0.2s ease; width: 100%; font-size: 1rem; 
+            text-transform: uppercase; letter-spacing: 1px; background: #333; color: #fff; margin-top: 15px;
         }
-        
         .btn-primary { 
-            background: linear-gradient(45deg, #FFD700, #FDB931); 
-            color: #000; 
-            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+            background: linear-gradient(45deg, #FFD700, #FDB931); color: #000; 
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
         }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
+        .btn-primary:active { transform: scale(0.98); }
+
+        /* Toggle Switch (Request vs History) */
+        .toggle-container {
+            display: flex;
+            background: #1a1a1a;
+            border-radius: 30px;
+            padding: 4px;
+            margin-bottom: 20px;
+            border: 1px solid #333;
+        }
+        .toggle-btn {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #888;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .toggle-btn.active {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 2px 10px rgba(255, 215, 0, 0.2);
         }
 
         /* --- AUTH SCREEN --- */
         #auth-section { 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            min-height: 100vh; 
-            padding: 20px; 
-            background: radial-gradient(circle at 50% 50%, #222, #000); 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            min-height: 100vh; padding: 20px; background: radial-gradient(circle at center, #1a1a1a, #000); 
         }
-        
         .auth-card { 
-            background: rgba(20, 20, 20, 0.8); 
-            backdrop-filter: blur(15px);
-            padding: 40px 30px; 
-            border-radius: 25px; 
-            width: 100%; 
-            max-width: 350px; 
-            text-align: center; 
-            box-shadow: 0 25px 50px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.1); 
-            border: 1px solid rgba(255, 215, 0, 0.1);
+            background: rgba(30, 30, 30, 0.6); backdrop-filter: blur(20px);
+            padding: 40px 25px; border-radius: 25px; width: 100%; max-width: 360px; 
+            text-align: center; border: 1px solid rgba(255, 215, 0, 0.2);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
-
+        .input-group { margin-bottom: 15px; text-align: left; }
+        .input-group label { display: block; margin-bottom: 5px; font-size: 0.8rem; color: #aaa; margin-left: 10px; }
         .auth-card input { 
-            width: 100%; 
-            padding: 15px; 
-            margin: 10px 0; 
-            background: rgba(255, 255, 255, 0.05); 
-            border: 1px solid rgba(255, 255, 255, 0.1); 
-            color: white; 
-            border-radius: 12px; 
-            outline: none; 
-            transition: 0.3s; 
+            width: 100%; padding: 14px; background: rgba(0,0,0,0.3); border: 1px solid #333; 
+            color: white; border-radius: 12px; outline: none; transition: 0.3s; font-size: 1rem;
         }
-        .auth-card input:focus { border-color: var(--primary); background: rgba(255, 255, 255, 0.1); }
-        
-        .switch-auth { margin-top: 20px; color: #aaa; cursor: pointer; font-size: 0.85rem; text-decoration: underline; }
+        .auth-card input:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(255,215,0,0.1); }
+        .switch-auth { margin-top: 20px; color: #888; font-size: 0.85rem; cursor: pointer; }
+        .switch-auth:hover { color: var(--primary); text-decoration: underline; }
 
-        /* Dashboard Header */
+        /* --- HEADER --- */
         header { 
-            background: rgba(10, 10, 10, 0.95); 
-            padding: 15px 20px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            border-bottom:1px solid #333; 
-            position: sticky; 
-            top: 0; 
-            z-index: 100; 
-            backdrop-filter: blur(10px); 
+            background: rgba(5, 5, 5, 0.9); padding: 15px 20px; display: flex; justify-content: space-between; 
+            align-items: center; border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px);
         }
-        .logo { font-family: 'Oswald', sans-serif; font-size: 1.5rem; font-weight: bold; color: var(--primary); }
+        .logo-text { font-family: 'Oswald', sans-serif; font-size: 1.5rem; font-weight: bold; color: var(--primary); letter-spacing: 1px;}
 
+        /* --- DASHBOARD --- */
         .balance-card { 
-            background: linear-gradient(135deg, #1a1a1a, #252525); 
-            border: 1px solid var(--primary);
-            color: #fff; 
-            padding: 25px; 
-            margin: 20px 15px; 
-            border-radius: 20px; 
-            text-align: center; 
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); 
+            background: linear-gradient(135deg, #1f1f1f, #111); 
+            border: 1px solid #333; margin: 20px 15px; padding: 30px; border-radius: 20px; 
+            text-align: center; position: relative; overflow: hidden;
         }
-        .balance-amount { font-size: 2.5rem; font-weight: 800; color: var(--primary); }
+        .balance-card::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,215,0,0.05) 0%, transparent 70%);
+        }
+        .balance-amount { font-size: 3rem; font-weight: 800; color: #fff; text-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        .currency { font-size: 1.2rem; color: var(--primary); vertical-align: top; margin-right: 5px; }
 
         /* Sections */
-        .section-title { padding: 0 20px; color: var(--text-gray); font-size: 0.8rem; text-transform: uppercase; font-weight: 700; margin-bottom: 10px;}
+        .section-title { padding: 0 25px; color: #666; font-size: 0.8rem; text-transform: uppercase; font-weight: 700; margin-bottom: 15px; display: flex; justify-content: space-between;}
         
-        /* Active Plans */
-        .active-plans-container { padding: 0 15px; }
-        .active-plan-row {
-            background: #151515; border: 1px solid #333; padding: 12px; border-radius: 10px; 
-            display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;
-        }
-        .row-plan-name { font-weight: bold; font-size: 1rem; }
-        .row-timer { color: var(--green); font-size: 0.8rem; margin-top: 4px; }
-
-        /* Available Plans */
-        .plans-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 15px; }
+        /* Plans */
+        .plans-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 15px 20px 15px; }
         .plan-card { 
-            background: #1a1a1a; border: 1px solid #333; padding: 20px 10px; border-radius: 15px; 
-            text-align: center; transition: 0.3s;
+            background: #151515; border: 1px solid #2a2a2a; padding: 20px; border-radius: 16px; 
+            text-align: center; transition: 0.3s; position: relative; overflow: hidden;
         }
-        .plan-card:hover { border-color: var(--primary); transform: translateY(-3px); }
-        .plan-price { color: #fff; font-size: 1.4rem; font-weight: bold; margin: 10px 0; }
-        .plan-name { color: var(--primary); font-weight: bold; }
+        .plan-card:hover { border-color: var(--primary); transform: translateY(-5px); }
+        .plan-name { color: var(--primary); font-weight: bold; font-size: 1.1rem; margin-bottom: 5px; }
+        .plan-price { color: #fff; font-size: 1.4rem; font-weight: 700; margin: 10px 0; }
+        .plan-roi { color: var(--green); font-size: 0.9rem; margin-bottom: 15px; font-weight: 600; }
 
-        /* Forms */
+        /* Forms & Inputs */
         .form-section { padding: 20px; }
-        .info-box { background: #222; padding: 15px; border-left: 4px solid var(--primary); margin-bottom: 20px; border-radius: 8px; font-size: 0.9rem;}
-        .form-group input, .form-group select { 
-            width: 100%; padding: 15px; background: #111; border: 1px solid #333; 
-            color: white; border-radius: 10px; margin-bottom: 15px; outline: none; 
-        }
-        .form-group input:focus { border-color: var(--primary); }
+        .form-control { width: 100%; padding: 16px; background: #111; border: 1px solid #333; color: white; border-radius: 12px; margin-bottom: 15px; outline: none; font-size: 1rem; }
+        .form-control:focus { border-color: var(--primary); }
+        select.form-control { appearance: none; background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23FFD700%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E"); background-repeat: no-repeat; background-position: right 1rem center; background-size: 0.8rem; }
+        
+        .info-box { background: rgba(255, 215, 0, 0.05); padding: 15px; border-left: 4px solid var(--primary); margin-bottom: 20px; border-radius: 8px; font-size: 0.9rem; color: #ddd;}
 
-        /* Bottom Nav */
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #0a0a0a; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #333; z-index: 100; padding-bottom: 25px;}
-        .nav-item { text-align: center; color: #666; cursor: pointer; flex: 1; }
-        .nav-item.active { color: var(--primary); }
-        .nav-icon { font-size: 1.2rem; display: block; margin-bottom: 4px; }
-
-        /* Toast */
-        #toast { 
-            visibility: hidden; min-width: 250px; background-color: #333; color: #fff; 
-            text-align: center; border-radius: 50px; padding: 16px; position: fixed; 
-            z-index: 999; left: 50%; bottom: 100px; transform: translateX(-50%); 
-            border: 1px solid var(--primary); font-size: 14px; box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+        /* --- HISTORY LISTS (New) --- */
+        .history-list {
+            max-height: 60vh;
+            overflow-y: auto;
+            padding-bottom: 20px;
         }
-        #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
-        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 100px; opacity: 1;} }
-        @keyframes fadeout { from {bottom: 100px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+        /* Custom Scrollbar */
+        .history-list::-webkit-scrollbar { width: 4px; }
+        .history-list::-webkit-scrollbar-track { background: #111; }
+        .history-list::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+
+        .history-item {
+            background: #151515;
+            border: 1px solid #222;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .h-left { display: flex; flex-direction: column; gap: 4px; }
+        .h-method { font-weight: 600; color: #fff; font-size: 1rem; display: flex; align-items: center; gap: 8px; }
+        .h-trx { font-size: 0.75rem; color: #666; font-family: monospace; }
+        .h-date { font-size: 0.75rem; color: #888; }
+        
+        .h-right { text-align: right; }
+        .h-amount { color: #fff; font-weight: 700; font-size: 1.1rem; }
+        .h-status { 
+            font-size: 0.75rem; padding: 4px 10px; border-radius: 20px; font-weight: 600; 
+            display: inline-block; margin-top: 5px;
+        }
+        .status-pending { background: rgba(255, 187, 51, 0.15); color: var(--orange); }
+        .status-approved { background: rgba(0, 200, 81, 0.15); color: var(--green); }
+        .status-rejected { background: rgba(255, 68, 68, 0.15); color: var(--red); }
+
+        /* --- BOTTOM NAV --- */
+        .bottom-nav { 
+            position: fixed; bottom: 0; width: 100%; background: rgba(5, 5, 5, 0.95); 
+            display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #222; 
+            z-index: 100; padding-bottom: max(12px, env(safe-area-inset-bottom)); 
+            backdrop-filter: blur(10px);
+        }
+        .nav-item { text-align: center; color: #555; cursor: pointer; flex: 1; transition: 0.3s; }
+        .nav-item.active { color: var(--primary); transform: translateY(-2px); }
+        .nav-icon { font-size: 1.5rem; display: block; margin-bottom: 4px; }
+        .nav-label { font-size: 0.7rem; font-weight: 600; }
+
+        /* --- TOAST --- */
+        #toast-container { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); z-index: 999; width: 90%; max-width: 400px; text-align: center; pointer-events: none;}
+        .toast {
+            background: rgba(30, 30, 30, 0.95); border: 1px solid var(--primary); color: white;
+            padding: 12px 20px; border-radius: 30px; margin-bottom: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+            opacity: 0; transform: translateY(20px); transition: all 0.4s ease; font-size: 0.9rem; display: inline-block;
+        }
+        .toast.show { opacity: 1; transform: translateY(0); }
 
     </style>
 </head>
 <body>
 
-    <div id="toast">Notification</div>
+    <div id="toast-container"></div>
 
     <!-- AUTH SECTION -->
     <section id="auth-section">
         <div class="auth-card">
             <div class="b-money-logo">B MONEY</div>
-            <h3 id="auth-title" style="margin-bottom: 20px; color: #fff;">Login Account</h3>
+            <h3 id="auth-title" style="margin-bottom: 25px; color: #fff;">Login Account</h3>
             
-            <div class="form-group">
-                <input type="text" id="username" placeholder="Username (e.g. ali123)">
+            <div class="input-group">
+                <label>Username</label>
+                <input type="text" id="username" placeholder="e.g. ali123">
             </div>
-            <div class="form-group">
-                <input type="password" id="password" placeholder="Password">
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="password" placeholder="••••••••">
             </div>
             
-            <!-- Referral input visible only on Signup -->
-            <div class="form-group hidden" id="signup-fields">
-                <input type="text" id="ref-code-input" placeholder="Referral Code (Optional)">
+            <div class="input-group hidden" id="signup-fields">
+                <label>Referral Code (Optional)</label>
+                <input type="text" id="ref-code-input" placeholder="Code">
             </div>
             
             <button class="btn btn-primary" id="auth-btn" onclick="handleAuth()">Login Now</button>
-            
             <p class="switch-auth" onclick="toggleAuth()">New User? Create Account</p>
         </div>
     </section>
@@ -226,105 +249,158 @@
     <!-- APP SECTION -->
     <section id="app-section" class="hidden">
         <header>
-            <div class="logo">B MONEY</div>
+            <div class="logo-text">B MONEY</div>
             <div style="font-size: 0.8rem; color: #888;">
-                User: <span id="user-display-name" style="color:var(--primary); font-weight:bold;"></span>
+                ID: <span id="user-display-name" style="color:var(--primary); font-weight:600;"></span>
             </div>
         </header>
 
         <!-- DASHBOARD VIEW -->
         <div id="view-dashboard">
             <div class="balance-card">
-                <small style="letter-spacing: 2px;">TOTAL BALANCE</small>
-                <div class="balance-amount">PKR <span id="display-balance">0</span></div>
+                <small style="letter-spacing: 3px; color: #888;">TOTAL BALANCE</small>
+                <div class="balance-amount"><span class="currency">PKR</span> <span id="display-balance">0</span></div>
             </div>
 
-            <h4 class="section-title">Active Plans</h4>
-            <div class="active-plans-container" id="active-plans-container">
-                <div style="text-align:center; color:#666; padding:20px;">No active plans.</div>
+            <div class="section-title">
+                <span>Active Plans</span>
+                <i class="ph ph-trend-up" style="color:var(--primary)"></i>
+            </div>
+            <div class="active-plans-container" style="padding: 0 15px;">
+                <!-- Active plans injected via JS -->
+                <div id="active-plans-list"></div>
             </div>
 
-            <h4 class="section-title">Investment Plans</h4>
-            <div class="plans-container" id="plans-list">
+            <div class="section-title">
+                <span>Investment Plans</span>
+                <i class="ph ph-chart-line-up" style="color:var(--primary)"></i>
+            </div>
+            <div class="plans-container" id="plans-grid">
                 <!-- Plans injected via JS -->
             </div>
         </div>
 
         <!-- DEPOSIT VIEW -->
-        <div id="view-deposit" class="hidden form-section">
-            <h2 style="color: var(--primary); margin-bottom: 20px;">Add Funds</h2>
-            <div class="info-box">
-                <p><strong>Easypaisa:</strong> 0300-1234567</p>
-                <p><strong>JazzCash:</strong> 0300-7654321</p>
-                <p style="margin-top:10px; font-size:0.8rem; color:var(--green);">Send amount then submit Transaction ID.</p>
+        <div id="view-deposit" class="hidden">
+            <div class="form-section">
+                <h2 style="color: var(--primary); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                    <i class="ph ph-wallet"></i> Add Funds
+                </h2>
+                
+                <!-- Toggle: Request vs History -->
+                <div class="toggle-container">
+                    <div class="toggle-btn active" id="dep-btn-req" onclick="switchDepWith('dep', 'req')">Request</div>
+                    <div class="toggle-btn" id="dep-btn-hist" onclick="switchDepWith('dep', 'hist')">History</div>
+                </div>
+
+                <!-- Deposit Form -->
+                <div id="dep-form-container">
+                    <div class="info-box">
+                        <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                            <strong>Easypaisa:</strong> <span>0300-1234567</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between;">
+                            <strong>JazzCash:</strong> <span>0300-7654321</span>
+                        </div>
+                        <p style="margin-top:10px; font-size:0.75rem; color:var(--green);">Send amount & enter TrxID below.</p>
+                    </div>
+                    
+                    <select id="dep-method" class="form-control">
+                        <option value="Easypaisa">Easypaisa</option>
+                        <option value="JazzCash">JazzCash</option>
+                    </select>
+                    <input type="number" id="dep-amount" class="form-control" placeholder="Amount (PKR)">
+                    <input type="text" id="dep-trx" class="form-control" placeholder="Transaction ID">
+                    <button class="btn btn-primary" onclick="submitDeposit()">Submit Request</button>
+                </div>
+
+                <!-- Deposit History List -->
+                <div id="dep-history-container" class="hidden">
+                    <div class="history-list" id="deposit-history-list">
+                        <!-- History Items Injected Here -->
+                        <div style="text-align:center; color:#555; padding:20px;">No history found.</div>
+                    </div>
+                </div>
             </div>
-            <label>Method</label>
-            <select id="dep-method">
-                <option value="Easypaisa">Easypaisa</option>
-                <option value="JazzCash">JazzCash</option>
-            </select>
-            <label>Amount (PKR)</label>
-            <input type="number" id="dep-amount" placeholder="500">
-            <label>Transaction ID</label>
-            <input type="text" id="dep-trx" placeholder="TRX ID...">
-            <button class="btn btn-primary" onclick="submitDeposit()">Submit Request</button>
         </div>
 
         <!-- WITHDRAW VIEW -->
-        <div id="view-withdraw" class="hidden form-section">
-            <h2 style="color: var(--primary); margin-bottom: 20px;">Withdraw Funds</h2>
-            <div class="info-box">
-                <p>Available: <span style="color:var(--primary); font-weight:bold;">PKR <span id="withdraw-avail">0</span></span></p>
+        <div id="view-withdraw" class="hidden">
+            <div class="form-section">
+                <h2 style="color: var(--primary); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                    <i class="ph ph-money"></i> Withdraw Funds
+                </h2>
+
+                <!-- Toggle: Request vs History -->
+                <div class="toggle-container">
+                    <div class="toggle-btn active" id="with-btn-req" onclick="switchDepWith('with', 'req')">Request</div>
+                    <div class="toggle-btn" id="with-btn-hist" onclick="switchDepWith('with', 'hist')">History</div>
+                </div>
+
+                <!-- Withdraw Form -->
+                <div id="with-form-container">
+                    <div class="info-box">
+                        Available Balance: <span style="color:var(--primary); font-weight:bold; font-size:1.1rem;">PKR <span id="withdraw-avail">0</span></span>
+                    </div>
+                    
+                    <input type="number" id="with-account" class="form-control" placeholder="Account Number (03XX...)">
+                    <input type="number" id="with-amount" class="form-control" placeholder="Amount (Min 500)">
+                    <select id="with-method" class="form-control">
+                        <option value="Easypaisa">Easypaisa</option>
+                        <option value="JazzCash">JazzCash</option>
+                    </select>
+                    <button class="btn btn-primary" onclick="submitWithdraw()">Withdraw Now</button>
+                </div>
+
+                <!-- Withdraw History List -->
+                <div id="with-history-container" class="hidden">
+                    <div class="history-list" id="withdraw-history-list">
+                        <!-- History Items Injected Here -->
+                        <div style="text-align:center; color:#555; padding:20px;">No history found.</div>
+                    </div>
+                </div>
             </div>
-            <label>Account Number</label>
-            <input type="number" id="with-account" placeholder="03XX-XXXXXXX">
-            <label>Amount (PKR)</label>
-            <input type="number" id="with-amount" placeholder="Min 500">
-            <label>Method</label>
-            <select id="with-method">
-                <option value="Easypaisa">Easypaisa</option>
-                <option value="JazzCash">JazzCash</option>
-            </select>
-            <button class="btn btn-primary" onclick="submitWithdraw()">Withdraw Now</button>
         </div>
 
         <!-- INVITE VIEW -->
-        <div id="view-invite" class="hidden form-section">
-            <h2 style="color: var(--primary); text-align: center; margin-bottom: 20px;">Invite & Earn</h2>
-            <div class="info-box" style="text-align: center;">
-                <p>Your Referral Code</p>
-                <h1 id="my-ref-code" style="font-size: 2.5rem; color: #fff; margin: 10px 0;">...</h1>
-                <button class="btn btn-primary" style="width: auto; padding: 10px 30px;" onclick="copyCode()">Copy</button>
-            </div>
-            <div class="info-box">
-                <p>Share your code. When your friend joins, you get a bonus!</p>
+        <div id="view-invite" class="hidden">
+            <div class="form-section">
+                <h2 style="color: var(--primary); text-align: center; margin-bottom: 30px;">Invite & Earn</h2>
+                <div class="info-box" style="text-align: center; padding: 30px;">
+                    <p style="color:#888; font-size:0.8rem; margin-bottom:10px;">YOUR REFERRAL CODE</p>
+                    <h1 id="my-ref-code" style="font-size: 2.5rem; color: #fff; margin: 10px 0; letter-spacing: 2px;">...</h1>
+                    <button class="btn btn-primary" style="width: auto; padding: 10px 40px;" onclick="copyCode()">Copy Code</button>
+                </div>
+                <div class="info-box">
+                    <p><strong>How it works:</strong><br>Share your code. When a friend joins and deposits, you get a commission bonus!</p>
+                </div>
             </div>
         </div>
 
         <!-- BOTTOM NAV -->
         <div class="bottom-nav">
             <div class="nav-item active" onclick="switchView('dashboard', this)">
-                <span class="nav-icon">🏠</span>
-                <span>Home</span>
+                <i class="ph ph-house nav-icon"></i>
+                <span class="nav-label">Home</span>
             </div>
             <div class="nav-item" onclick="switchView('deposit', this)">
-                <span class="nav-icon">💰</span>
-                <span>Deposit</span>
+                <i class="ph ph-download-simple nav-icon"></i>
+                <span class="nav-label">Deposit</span>
             </div>
             <div class="nav-item" onclick="switchView('withdraw', this)">
-                <span class="nav-icon">💸</span>
-                <span>Withdraw</span>
+                <i class="ph ph-upload-simple nav-icon"></i>
+                <span class="nav-label">Withdraw</span>
             </div>
             <div class="nav-item" onclick="switchView('invite', this)">
-                <span class="nav-icon">👥</span>
-                <span>Invite</span>
+                <i class="ph ph-users nav-icon"></i>
+                <span class="nav-label">Invite</span>
             </div>
         </div>
     </section>
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        // --- 1. FIREBASE CONFIG (YOUR CONFIG ADDED HERE) ---
+        // --- 1. CONFIG & STATE ---
         const firebaseConfig = {
             apiKey: "AIzaSyB7atEHWnOo_EzCuFxBRg4xWF51x4atfRQ",
             authDomain: "wingo-new-pro.firebaseapp.com",
@@ -336,16 +412,72 @@
             measurementId: "G-WED3TVXE62"
         };
 
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
-        
-        // State Variables
-        let currentUser = null;
-        let isLoginMode = true;
+        let db, currentUser, isLoginMode = true, isSimulating = false;
+        let simData = { users: {}, depositRequests: {}, withdrawRequests: {} }; // Local fallback storage
 
-        // --- 2. AUTHENTICATION LOGIC ---
+        // Initialize
+        try {
+            firebase.initializeApp(firebaseConfig);
+            db = firebase.database();
+        } catch(e) {
+            console.warn("Firebase init failed, switching to Simulation Mode");
+            isSimulating = true;
+        }
 
+        // --- 2. UI HELPERS ---
+        function showToast(msg) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerText = msg;
+            container.appendChild(toast);
+            // Trigger reflow
+            void toast.offsetWidth;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 400);
+            }, 3000);
+        }
+
+        function switchView(viewName, navEl) {
+            ['dashboard', 'deposit', 'withdraw', 'invite'].forEach(v => {
+                document.getElementById('view-' + v).classList.add('hidden');
+            });
+            document.getElementById('view-' + viewName).classList.remove('hidden');
+            
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            if(navEl) navEl.classList.add('active');
+
+            // Load history when switching to tabs
+            if(viewName === 'deposit') loadDepositHistory();
+            if(viewName === 'withdraw') loadWithdrawHistory();
+        }
+
+        // Toggle between Form and History inside Dep/With
+        function switchDepWith(type, mode) {
+            const formCont = document.getElementById(type + '-form-container');
+            const histCont = document.getElementById(type + '-history-container');
+            const btnReq = document.getElementById(type + '-btn-req');
+            const btnHist = document.getElementById(type + '-btn-hist');
+
+            if(mode === 'req') {
+                formCont.classList.remove('hidden');
+                histCont.classList.add('hidden');
+                btnReq.classList.add('active');
+                btnHist.classList.remove('active');
+            } else {
+                formCont.classList.add('hidden');
+                histCont.classList.remove('hidden');
+                btnReq.classList.remove('active');
+                btnHist.classList.add('active');
+                
+                if(type === 'dep') loadDepositHistory();
+                if(type === 'with') loadWithdrawHistory();
+            }
+        }
+
+        // --- 3. AUTH LOGIC ---
         function toggleAuth() {
             isLoginMode = !isLoginMode;
             const title = document.getElementById('auth-title');
@@ -371,73 +503,49 @@
             const password = document.getElementById('password').value.trim();
             const refCode = document.getElementById('ref-code-input').value.trim();
 
-            if (!username || !password) {
-                showToast("Please fill all fields");
-                return;
-            }
+            if (!username || !password) return showToast("Please fill all fields");
 
-            // Loading effect
             const btn = document.getElementById('auth-btn');
-            const originalText = btn.innerText;
             btn.innerText = "Processing...";
             btn.disabled = true;
 
-            if (isLoginMode) {
-                // --- LOGIN ---
-                db.ref('users/' + username).once('value')
-                .then((snapshot) => {
-                    if (snapshot.exists()) {
-                        const userData = snapshot.val();
-                        if (userData.password === password) {
-                            showToast("Welcome Back!");
+            if (isSimulating) {
+                setTimeout(() => {
+                    let user = simData.users[username];
+                    if (isLoginMode) {
+                        if (user && user.password === password) {
                             loginSuccess(username);
-                        } else {
-                            showToast("Wrong Password!");
+                        } else showToast("Wrong credentials (Sim)");
+                    } else {
+                        if (user) { showToast("User taken"); }
+                        else {
+                            simData.users[username] = { 
+                                password, balance: 500, referralCode: username.toUpperCase()+'123', plans: {} 
+                            }; // Bonus 500 for sim
+                            loginSuccess(username);
                         }
-                    } else {
-                        showToast("User not found!");
                     }
-                })
-                .catch((error) => {
-                    console.error("Login Error:", error);
-                    showToast("Connection Failed: " + error.message);
-                })
-                .finally(() => {
-                    btn.innerText = originalText;
-                    btn.disabled = false;
-                });
+                    btn.innerText = "Login Now"; btn.disabled = false;
+                }, 1000);
+                return;
+            }
 
-            } else {
-                // --- SIGNUP ---
+            // Real Firebase Logic
+            if (isLoginMode) {
                 db.ref('users/' + username).once('value')
-                .then((snapshot) => {
-                    if (snapshot.exists()) {
-                        showToast("Username already taken!");
-                    } else {
-                        // Create User
-                        const newUser = {
-                            password: password,
-                            balance: 0,
-                            joined: new Date().toISOString(),
-                            referralCode: username.toUpperCase() + Math.floor(Math.random() * 1000),
-                            referrer: refCode || "none"
-                        };
-
-                        return db.ref('users/' + username).set(newUser);
-                    }
-                })
-                .then(() => {
-                    showToast("Account Created!");
-                    loginSuccess(username);
-                })
-                .catch((error) => {
-                    console.error("Signup Error:", error);
-                    showToast("Error: " + error.message);
-                })
-                .finally(() => {
-                    btn.innerText = originalText;
-                    btn.disabled = false;
-                });
+                .then(snap => {
+                    if (snap.exists() && snap.val().password === password) loginSuccess(username);
+                    else showToast("Invalid Credentials");
+                }).finally(() => { btn.innerText = "Login Now"; btn.disabled = false; });
+            } else {
+                db.ref('users/' + username).once('value').then(snap => {
+                    if (snap.exists()) throw "User exists";
+                    return db.ref('users/' + username).set({
+                        password, balance: 0, referralCode: username + Math.floor(Math.random()*1000), plans: {}
+                    });
+                }).then(() => loginSuccess(username))
+                .catch(e => showToast(e))
+                .finally(() => { btn.innerText = "Register Now"; btn.disabled = false; });
             }
         }
 
@@ -447,117 +555,206 @@
             document.getElementById('app-section').classList.remove('hidden');
             document.getElementById('user-display-name').innerText = username;
             
-            // Load Data
-            loadUserData();
+            // Start Listeners
+            listenUserData();
+            listenDepositHistory();
+            listenWithdrawHistory();
         }
 
-        // --- 3. DATA HANDLING ---
-
-        function loadUserData() {
-            if (!currentUser) return;
-
-            const userRef = db.ref('users/' + currentUser);
-
-            // Realtime Listener
-            userRef.on('value', (snapshot) => {
-                if (snapshot.exists()) {
-                    const data = snapshot.val();
-                    // Update UI
-                    const bal = data.balance || 0;
-                    document.getElementById('display-balance').innerText = bal;
-                    document.getElementById('withdraw-avail').innerText = bal;
-                    document.getElementById('my-ref-code').innerText = data.referralCode || "N/A";
-                    
-                    // Load Plans if any
-                    renderPlans(data.plans);
+        // --- 4. DATA LISTENERS ---
+        function listenUserData() {
+            const updateUI = (data) => {
+                if(!data) return;
+                document.getElementById('display-balance').innerText = data.balance || 0;
+                document.getElementById('withdraw-avail').innerText = data.balance || 0;
+                document.getElementById('my-ref-code').innerText = data.referralCode || "N/A";
+                
+                const plansDiv = document.getElementById('active-plans-list');
+                plansDiv.innerHTML = "";
+                const plans = data.plans || {};
+                if(Object.keys(plans).length === 0) {
+                    plansDiv.innerHTML = `<div style="text-align:center; color:#444; padding:10px;">No active plans.</div>`;
+                } else {
+                    Object.values(plans).forEach(p => {
+                        plansDiv.innerHTML += `
+                        <div style="background:#111; border:1px solid #333; padding:12px; border-radius:10px; margin-bottom:10px; display:flex; justify-content:space-between;">
+                            <div><div style="font-weight:bold; color:#fff;">${p.name}</div><div style="font-size:0.8rem; color:var(--green);">Daily: ${p.roi}%</div></div>
+                            <div style="text-align:right;"><div style="color:var(--primary); font-weight:bold;">PKR ${p.amount}</div></div>
+                        </div>`;
+                    });
                 }
-            }, (error) => {
-                console.error("Data Load Error:", error);
-                showToast("Data sync error");
+            };
+
+            if(isSimulating) {
+                // Initial load
+                updateUI(simData.users[currentUser]);
+                // Mock realtime update (not fully recursive for sim)
+            } else {
+                db.ref('users/' + currentUser).on('value', snap => updateUI(snap.val()));
+            }
+        }
+
+        // --- 5. HISTORY LOGIC (New) ---
+        
+        function listenDepositHistory() {
+            if(isSimulating) return; // Sim handles history on view switch for simplicity
+            
+            db.ref('depositRequests').on('value', snapshot => {
+                renderHistory(snapshot.val(), 'deposit');
             });
         }
 
-        function renderPlans(plans) {
-            const container = document.getElementById('active-plans-container');
-            container.innerHTML = ""; 
+        function loadDepositHistory() {
+            if(isSimulating) {
+                const all = simData.depositRequests;
+                renderHistory(all, 'deposit');
+            }
+            // Realtime listener handles the rest
+        }
 
-            if (!plans) {
-                container.innerHTML = `<div style="text-align:center; color:#555; padding:10px; font-size:0.8rem;">No active plans.</div>`;
+        function listenWithdrawHistory() {
+            if(isSimulating) return;
+            db.ref('withdrawRequests').on('value', snapshot => {
+                renderHistory(snapshot.val(), 'withdraw');
+            });
+        }
+
+        function loadWithdrawHistory() {
+            if(isSimulating) {
+                const all = simData.withdrawRequests;
+                renderHistory(all, 'withdraw');
+            }
+        }
+
+        function renderHistory(data, type) {
+            const listId = type + '-history-list';
+            const container = document.getElementById(listId);
+            container.innerHTML = "";
+
+            if (!data) {
+                container.innerHTML = `<div style="text-align:center; color:#555; padding:20px;">No history found.</div>`;
                 return;
             }
 
-            Object.keys(plans).forEach(key => {
-                const plan = plans[key];
-                const div = document.createElement('div');
-                div.className = 'active-plan-row';
-                div.innerHTML = `
-                    <div class="row-left">
-                        <div class="row-plan-name">${plan.name}</div>
-                        <div class="row-timer">Daily: ${plan.roi}%</div>
+            // Convert object to array and reverse (newest first)
+            const items = Object.entries(data).reverse();
+
+            let hasItems = false;
+            items.forEach(([key, item]) => {
+                // Only show current user's history
+                if (item.user !== currentUser) return;
+
+                hasItems = true;
+                const date = item.date ? new Date(item.date).toLocaleDateString() : 'Unknown';
+                const statusClass = item.status === 'pending' ? 'status-pending' : (item.status === 'approved' ? 'status-approved' : 'status-rejected');
+                const icon = item.method === 'Easypaisa' ? '<i class="ph ph-mobile"></i>' : '<i class="ph ph-bank"></i>';
+
+                const html = `
+                <div class="history-item">
+                    <div class="h-left">
+                        <div class="h-method">${icon} ${item.method}</div>
+                        <div class="h-trx">ID: ${item.trxId || key.substring(0,8)}</div>
+                        <div class="h-date">${date}</div>
                     </div>
-                    <div class="row-right" style="text-align:right;">
-                        <div style="color:var(--primary); font-weight:bold;">PKR ${plan.amount}</div>
+                    <div class="h-right">
+                        <div class="h-amount">PKR ${item.amount}</div>
+                        <div class="h-status ${statusClass}">${item.status.toUpperCase()}</div>
                     </div>
-                `;
-                container.appendChild(div);
+                </div>`;
+                container.innerHTML += html;
             });
+
+            if(!hasItems) {
+                container.innerHTML = `<div style="text-align:center; color:#555; padding:20px;">No history found.</div>`;
+            }
         }
 
-        // --- 4. APP FEATURES ---
+        // --- 6. ACTIONS ---
 
         function submitDeposit() {
             const method = document.getElementById('dep-method').value;
             const amount = parseInt(document.getElementById('dep-amount').value);
             const trx = document.getElementById('dep-trx').value;
 
-            if (!amount || !trx) {
-                showToast("Enter Amount & TrxID");
-                return;
-            }
+            if (!amount || !trx) return showToast("Enter Amount & TrxID");
 
-            const reqRef = db.ref('depositRequests').push();
-            reqRef.set({
-                user: currentUser,
-                method: method,
-                amount: amount,
-                trxId: trx,
-                status: 'pending',
-                date: new Date().toISOString()
-            }).then(() => {
-                showToast("Request Submitted!");
+            const reqData = { user: currentUser, method, amount, trxId: trx, status: 'pending', date: new Date().toISOString() };
+
+            const finish = () => {
+                showToast("Deposit Request Sent!");
                 document.getElementById('dep-amount').value = "";
                 document.getElementById('dep-trx').value = "";
-            }).catch(err => showToast("Error: " + err.message));
+                switchDepWith('dep', 'hist'); // Auto switch to history
+            };
+
+            if(isSimulating) {
+                const key = 'dep_' + Date.now();
+                simData.depositRequests[key] = reqData;
+                finish();
+            } else {
+                db.ref('depositRequests').push(reqData).then(finish).catch(e => showToast(e.message));
+            }
         }
 
         function submitWithdraw() {
             const amount = parseInt(document.getElementById('with-amount').value);
             const account = document.getElementById('with-account').value;
             const method = document.getElementById('with-method').value;
-            
-            db.ref('users/' + currentUser + '/balance').once('value')
-            .then(snap => {
-                const currentBal = snap.val() || 0;
-                if (amount > currentBal) {
-                    showToast("Insufficient Balance!");
-                    return;
-                }
-                if (amount < 500) {
-                    showToast("Min withdraw 500");
-                    return;
-                }
 
-                const reqRef = db.ref('withdrawRequests').push();
-                reqRef.set({
-                    user: currentUser,
-                    amount: amount,
-                    account: account,
-                    method: method,
-                    status: 'pending'
-                }).then(() => {
+            const checkBal = (bal) => {
+                if(amount > bal) return showToast("Insufficient Balance!");
+                if(amount < 500) return showToast("Min withdraw 500");
+
+                const reqData = { user: currentUser, amount, account, method, status: 'pending', date: new Date().toISOString() };
+                
+                if(isSimulating) {
+                    simData.users[currentUser].balance -= amount; // Deduct immediately in sim
+                    listenUserData(); // Update UI
+                    const key = 'with_' + Date.now();
+                    simData.withdrawRequests[key] = reqData;
                     showToast("Withdraw Request Sent!");
-                });
-            });
+                    document.getElementById('with-amount').value = "";
+                    switchDepWith('with', 'hist');
+                } else {
+                    db.ref('users/'+currentUser+'/balance').transaction(bal => bal - amount)
+                    .then(() => db.ref('withdrawRequests').push(reqData))
+                    .then(() => {
+                        showToast("Withdraw Request Sent!");
+                        document.getElementById('with-amount').value = "";
+                        switchDepWith('with', 'hist');
+                    })
+                    .catch(e => showToast(e.message));
+                }
+            };
+
+            if(isSimulating) {
+                checkBal(simData.users[currentUser].balance);
+            } else {
+                db.ref('users/' + currentUser + '/balance').once('value').then(s => checkBal(s.val()));
+            }
+        }
+
+        function buyPlan(name, price, roi) {
+            const process = (bal) => {
+                if(bal < price) return showToast("Insufficient Balance!");
+                
+                const newPlan = { name, amount: price, roi, startDate: new Date().toISOString() };
+                
+                if(isSimulating) {
+                    simData.users[currentUser].balance -= price;
+                    const pid = 'plan_' + Date.now();
+                    simData.users[currentUser].plans[pid] = newPlan;
+                    listenUserData();
+                    showToast("Plan Activated!");
+                } else {
+                    // Use transaction for safety
+                    db.ref('users/'+currentUser+'/balance').transaction(b => b - price);
+                    db.ref('users/'+currentUser+'/plans').push(newPlan).then(() => showToast("Plan Activated!"));
+                }
+            };
+
+            if(isSimulating) process(simData.users[currentUser].balance);
+            else db.ref('users/'+currentUser+'/balance').once('value').then(s => process(s.val()));
         }
 
         function copyCode() {
@@ -565,71 +762,24 @@
             navigator.clipboard.writeText(code).then(() => showToast("Code Copied!"));
         }
 
-        // --- UI HELPERS ---
-
-        function switchView(viewName, navElement) {
-            document.getElementById('view-dashboard').classList.add('hidden');
-            document.getElementById('view-deposit').classList.add('hidden');
-            document.getElementById('view-withdraw').classList.add('hidden');
-            document.getElementById('view-invite').classList.add('hidden');
-
-            document.getElementById('view-' + viewName).classList.remove('hidden');
-
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            if(navElement) navElement.classList.add('active');
-        }
-
-        function showToast(msg) {
-            const x = document.getElementById("toast");
-            x.innerText = msg;
-            x.className = "show";
-            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-        }
-
-        // Populate Plans Grid
-        const plansData = [
+        // --- 7. POPULATE PLANS ---
+        const plans = [
             { id: 1, name: "Starter", price: 500, roi: 10 },
             { id: 2, name: "Basic", price: 1000, roi: 12 },
             { id: 3, name: "Pro", price: 5000, roi: 15 },
             { id: 4, name: "VIP", price: 10000, roi: 20 },
         ];
 
-        const plansList = document.getElementById('plans-list');
-        plansData.forEach(p => {
-            const el = document.createElement('div');
-            el.className = 'plan-card';
-            el.innerHTML = `
+        const plansGrid = document.getElementById('plans-grid');
+        plans.forEach(p => {
+            plansGrid.innerHTML += `
+            <div class="plan-card">
                 <div class="plan-name">${p.name}</div>
                 <div class="plan-price">PKR ${p.price}</div>
-                <div style="color:#888; font-size:0.8rem;">Daily: ${p.roi}%</div>
-                <button class="btn btn-primary" style="font-size:0.7rem; padding: 8px;" onclick="buyPlan('${p.name}', ${p.price}, ${p.roi})">Buy</button>
-            `;
-            plansList.appendChild(el);
+                <div class="plan-roi">Daily ${p.roi}%</div>
+                <button class="btn btn-primary" style="padding: 10px; font-size: 0.8rem;" onclick="buyPlan('${p.name}', ${p.price}, ${p.roi})">BUY NOW</button>
+            </div>`;
         });
-
-        function buyPlan(name, price, roi) {
-            db.ref('users/' + currentUser + '/balance').once('value')
-            .then(snap => {
-                const bal = snap.val() || 0;
-                if(bal < price) {
-                    showToast("Insufficient Balance!");
-                    return;
-                }
-
-                db.ref('users/' + currentUser + '/balance').set(bal - price);
-
-                const newPlanRef = db.ref('users/' + currentUser + '/plans').push();
-                newPlanRef.set({
-                    name: name,
-                    amount: price,
-                    roi: roi,
-                    startDate: new Date().toISOString()
-                }).then(() => {
-                    showToast("Plan Activated!");
-                });
-
-            }).catch(e => showToast(e.message));
-        }
 
     </script>
 </body>

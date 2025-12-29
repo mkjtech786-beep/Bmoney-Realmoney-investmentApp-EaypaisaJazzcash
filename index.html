@@ -38,11 +38,13 @@
             font-size: 2.5rem;
             letter-spacing: 2px;
             font-weight: 700;
+            /* Gradient Text */
             background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
             background-size: 200% auto;
             color: #fff;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            /* Animation */
             animation: shine 4s linear infinite;
             text-align: center;
             margin-bottom: 10px;
@@ -97,11 +99,12 @@
             justify-content: center; 
             min-height: 100vh; 
             padding: 20px; 
+            /* Premium Dark Background */
             background: radial-gradient(circle at 50% 50%, #222, #000); 
         }
         
         .auth-card { 
-            background: rgba(20, 20, 20, 0.7); 
+            background: rgba(20, 20, 20, 0.7); /* Darker Glass */
             backdrop-filter: blur(15px);
             padding: 40px 30px; 
             border-radius: 25px; 
@@ -139,13 +142,14 @@
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
-            border-bottom:1px solid #333; 
+            border-bottom: 1px solid #333; 
             position: sticky; 
             top: 0; 
             z-index: 100; 
             backdrop-filter: blur(10px); 
             box-shadow: 0 5px 20px rgba(0,0,0,0.5);
         }
+        /* Mini Logo for Header */
         .logo { 
             font-family: 'Oswald', sans-serif;
             font-size: 1.5rem; 
@@ -174,7 +178,7 @@
 
         .section-title { padding: 0 15px; margin-top: 20px; color: var(--text-gray); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
         
-        /* --- COMPACT ROW ACTIVE PLANS --- */
+        /* --- COMPACT ROW (SLIM LINE) ACTIVE PLANS --- */
         .active-plans-container { 
             display: flex; 
             flex-direction: column; 
@@ -186,7 +190,7 @@
             background: #121212;
             border: 1px solid #333;
             border-radius: 10px;
-            padding: 8px 12px; 
+            padding: 8px 12px; /* Compact Padding */
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -328,12 +332,13 @@
             <div class="form-group">
                 <input type="password" id="password" placeholder="Enter Password">
             </div>
-            <!-- NEW: Referral Code Input -->
-            <div class="form-group">
+            
+            <!-- NEW: Referral Container (Hidden in Login Mode by default logic) -->
+            <div id="ref-container" style="display: none;">
                 <input type="text" id="ref-code-input" placeholder="Referral Code (Optional)">
             </div>
             
-            <button class="btn btn-primary" onclick="handleAuth()">Login Now</button>
+            <button id="auth-btn" class="btn btn-primary" onclick="handleAuth()">Login Now</button>
             
             <p class="switch-auth" onclick="toggleAuth()">New User? Create Account</p>
         </div>
@@ -360,7 +365,7 @@
             <h4 class="section-title">Active Plans</h4>
             <div id="active-plans-container">
                 <!-- Active Plans injected via JS -->
-                <div class="info-box" style="margin: 15px; text-align:center; border-radius:12px; font-size:0.8rem;">Loading plans...</div>
+                <div class="info-box" style="margin: 15px; text-align:center; border-radius:12px; font-size:0.8rem;">You have no active plans. Invest now.</div>
             </div>
 
             <h4 class="section-title">Investment Plans</h4>
@@ -371,24 +376,25 @@
 
         <!-- INVITE VIEW -->
         <div id="view-invite" class="hidden invite-container">
-            <div class="form-section">
-                <h2 style="color: var(--primary); margin-bottom: 20px; text-align:center;">Invite & Earn</h2>
-                <div class="ref-box" style="background: #1a1a1a; padding: 20px; border-radius: 15px; border: 1px solid var(--primary); text-align: center; margin-bottom: 20px;">
-                    <p style="color: #888; font-size: 0.9rem;">Share your Referral Code</p>
-                    <div class="ref-code" style="font-size: 1.8rem; font-weight: 800; color: var(--primary); letter-spacing: 2px; margin: 10px 0; font-family: 'Courier New', monospace; background: #000; padding: 10px; border-radius: 8px; border: 1px dashed #444;" id="my-ref-code">LOADING...</div>
-                    <button class="btn btn-primary" style="margin-top:10px;" onclick="copyCode()">Copy Code</button>
-                </div>
-                <div class="info-box">
-                    <h4 style="color: var(--green); margin-bottom:5px;">Bonus Rules:</h4>
-                    <ul style="margin-left: 20px; color: #ccc; font-size: 0.9rem; line-height: 1.6;">
-                        <li>Share your code with friends.</li>
-                        <li>They get a bonus on signup.</li>
-                        <li>When they deposit, you get <strong style="color:var(--primary);">30% Bonus</strong> instantly.</li>
-                    </ul>
-                </div>
-                <h4 style="margin-bottom: 10px;">Your Invited Users</h4>
-                <div id="invite-list"></div>
+            <h2 style="color: var(--primary); margin-bottom: 20px;">Invite & Earn</h2>
+            
+            <div class="ref-box">
+                <p style="color: #888; font-size: 0.9rem;">Share your Referral Code</p>
+                <div class="ref-code" id="my-ref-code">LOADING...</div>
+                <button class="btn btn-primary" style="margin-top:10px;" onclick="copyCode()">Copy Code</button>
             </div>
+
+            <div class="info-box">
+                <h4 style="color: var(--green); margin-bottom:5px;">Bonus Rules:</h4>
+                <ul style="margin-left: 20px; color: #ccc; font-size: 0.9rem; line-height: 1.6;">
+                    <li>Share your code with friends.</li>
+                    <li>They get a bonus on signup.</li>
+                    <li>When they deposit, you get <strong style="color:var(--primary);">30% Bonus</strong> instantly.</li>
+                </ul>
+            </div>
+
+            <h4 style="margin-bottom: 10px;">Your Invited Users</h4>
+            <div id="invite-list"></div>
         </div>
 
         <!-- DEPOSIT -->
@@ -514,9 +520,10 @@
         const db = firebase.database();
 
         /* --- STATE VARIABLES --- */
-        let currentUser = null; // Stores { username, password, balance, ... }
+        let currentUser = null; 
         let currentUserKey = null; // Firebase Key for updates
         let isLoginMode = true;
+        let isAuthProcessing = false; // Flag to prevent double clicks
         let timerInterval = null;
         
         // Global Data Cache (Synced with Firebase)
@@ -581,6 +588,9 @@
                         // Merge updates (except session sensitive data if needed)
                         currentUser.balance = updatedUser.balance;
                         currentUser.totalEarnings = updatedUser.totalEarnings;
+                        // Don't overwrite activePlans immediately if they are syncing locally, 
+                        // but here for simplicity we rely on listener updating `allUsers` 
+                        // and we manually update `currentUser` fields that are critical.
                         if(!currentUser.isAdmin) updateDashboard();
                     }
                 }
@@ -597,66 +607,97 @@
             isLoginMode = !isLoginMode;
             document.getElementById('auth-title').innerText = isLoginMode ? 'Login Account' : 'Create Account';
             document.querySelector('.switch-auth').innerText = isLoginMode ? "New User? Create Account" : "Already have account? Login";
+            
+            // NEW: Toggle Referral Container Visibility
+            const refContainer = document.getElementById('ref-container');
+            refContainer.style.display = isLoginMode ? 'none' : 'block';
+            
+            // Clear Ref Input when switching to Login Mode to prevent accidental use
+            if(isLoginMode) {
+                document.getElementById('ref-code-input').value = '';
+            }
         }
 
         function handleAuth() {
+            if(isAuthProcessing) return; // Prevent double click
             const userIn = document.getElementById('username').value.trim();
             const passIn = document.getElementById('password').value.trim();
             const refCodeIn = document.getElementById('ref-code-input').value.trim().toUpperCase();
+            const authBtn = document.getElementById('auth-btn');
 
             if (userIn === "" || passIn === "") {
                 return showToast("Please fill Username and Password!");
             }
 
-            // Admin Check (Hardcoded but stored in DB as well conceptually)
             if (userIn === 'admin' && passIn === 'admin') {
-                // For Admin, we don't use the user list logic in this prototype to allow easy access even if no DB connection
+                // Admin Login (Immediate)
                 currentUser = { username: 'Admin', isAdmin: true };
                 showToast("Admin Logged In");
                 loginSuccess();
                 return;
             }
 
-            // Fetch users to check
+            isAuthProcessing = true;
+            const originalBtnText = authBtn.innerText;
+            authBtn.innerText = "Processing...";
+            authBtn.disabled = true;
+
+            // Firebase Fetch
             db.ref('users').once('value').then(snapshot => {
                 const usersData = snapshot.val() || {};
                 const userKeys = Object.keys(usersData);
-                const existingUser = userKeys.find(key => usersData[key].username === userIn && usersData[key].password === passIn);
+                const existingUserKey = userKeys.find(key => usersData[key].username === userIn && usersData[key].password === passIn);
 
                 if (isLoginMode) {
-                    // Maintenance Check
+                    // LOGIN LOGIC
                     if (settings.maintenance) {
-                        alert("System is under maintenance.");
+                        isAuthProcessing = false;
+                        authBtn.innerText = originalBtnText;
+                        authBtn.disabled = false;
+                        alert("System is under maintenance. Please try again later.");
                         return;
                     }
 
-                    if (existingUser) {
-                        currentUser = usersData[existingUser];
-                        currentUserKey = existingUser; // Store key for updates
+                    if (existingUserKey) {
+                        currentUser = usersData[existingUserKey];
+                        currentUserKey = existingUserKey;
                         showToast(`Welcome back, ${currentUser.username}!`);
                         loginSuccess();
                     } else {
+                        isAuthProcessing = false;
+                        authBtn.innerText = originalBtnText;
+                        authBtn.disabled = false;
                         showToast("Invalid Username or Password");
                     }
                 } else {
-                    // Register
+                    // REGISTER LOGIC
                     if (settings.maintenance) {
-                        alert("System is under maintenance.");
+                        isAuthProcessing = false;
+                        authBtn.innerText = originalBtnText;
+                        authBtn.disabled = false;
+                        alert("System is under maintenance. Registration is disabled.");
                         return;
                     }
 
                     const usernameExists = userKeys.some(key => usersData[key].username === userIn);
                     if (usernameExists) {
+                        isAuthProcessing = false;
+                        authBtn.innerText = originalBtnText;
+                        authBtn.disabled = false;
                         showToast("Username already exists!");
                     } else {
-                        // Check Referral Code
+                        // Validate Referral Code
                         let referredBy = null;
                         if(refCodeIn) {
-                            const referrerKey = Object.keys(usersData).find(key => usersData[key].referralCode === refCodeIn);
+                            const referrerKey = userKeys.find(key => usersData[key].referralCode === refCodeIn);
                             if(referrerKey) {
                                 referredBy = usersData[referrerKey].username;
                             } else {
-                                return showToast("Invalid Referral Code");
+                                isAuthProcessing = false;
+                                authBtn.innerText = originalBtnText;
+                                authBtn.disabled = false;
+                                showToast("Invalid Referral Code");
+                                return;
                             }
                         }
 
@@ -675,11 +716,25 @@
                         db.ref('users').push(newUser).then((snap) => {
                             currentUser = newUser;
                             currentUserKey = snap.key;
+                            isAuthProcessing = false;
+                            authBtn.innerText = originalBtnText;
+                            authBtn.disabled = false;
                             showToast("Account Created Successfully!");
                             loginSuccess();
+                        }).catch(err => {
+                            isAuthProcessing = false;
+                            authBtn.innerText = originalBtnText;
+                            authBtn.disabled = false;
+                            showToast("Connection Error: " + err.message);
                         });
                     }
                 }
+            }).catch(err => {
+                console.error(err);
+                isAuthProcessing = false;
+                authBtn.innerText = originalBtnText;
+                authBtn.disabled = false;
+                showToast("Connection Error. Check Internet.");
             });
         }
 
@@ -706,12 +761,12 @@
             if(timerInterval) clearInterval(timerInterval);
             currentUser = null;
             currentUserKey = null;
+            // Force reload to clear memory completely
             location.reload();
         }
 
         /* --- DASHBOARD LOGIC --- */
         function updateDashboard() {
-            if(!currentUser) return;
             document.getElementById('display-balance').innerText = currentUser.balance.toLocaleString();
             renderAvailablePlans();
             renderActivePlans();
@@ -830,17 +885,18 @@
             }
 
             if (currentUser.balance >= plan.price) {
-                // Optimistic Update
+                // Optimistic Update (Wait for Firebase listener to sync locally)
                 const newBalance = currentUser.balance - plan.price;
-                currentUser.balance = newBalance;
                 const newPlans = [...currentUser.activePlans, { planId: planId, lastClaim: null }];
                 
-                // Push to Firebase
                 db.ref(`users/${currentUserKey}`).update({
                     balance: newBalance,
                     activePlans: newPlans
                 }).then(() => {
                     showToast(`Success! You bought ${plan.name}`);
+                    // The listener will update the UI
+                }).catch(err => {
+                    showToast("Error: " + err.message);
                 });
             } else {
                 showToast("Insufficient Balance! Deposit money first.");
@@ -857,12 +913,9 @@
             if (now - last >= 24 * 60 * 60 * 1000) {
                 const newBalance = currentUser.balance + planDetails.daily;
                 const newEarnings = (currentUser.totalEarnings || 0) + planDetails.daily;
-                
-                // Update active plan array
                 const updatedPlans = [...currentUser.activePlans];
                 updatedPlans[index].lastClaim = new Date().toISOString();
 
-                // Update Firebase
                 db.ref(`users/${currentUserKey}`).update({
                     balance: newBalance,
                     totalEarnings: newEarnings,
@@ -921,7 +974,7 @@
                 status: 'pending',
                 date: new Date().toLocaleDateString()
             };
-
+            
             db.ref('requests').push(reqData).then(() => {
                 showToast("Withdrawal requested!");
                 switchView('history');
@@ -964,7 +1017,7 @@
 
         /* --- INVITE LOGIC --- */
         function renderInvitePage() {
-            document.getElementById('my-ref-code').innerText = currentUser.referralCode || 'LOADING...';
+            document.getElementById('my-ref-code').innerText = currentUser.referralCode || 'ERROR';
             
             const container = document.getElementById('invite-list');
             container.innerHTML = '';
@@ -979,7 +1032,7 @@
             invitedUsers.forEach(u => {
                 const div = document.createElement('div');
                 div.className = 'ref-list-item';
-                div.style = "background: #151515; padding: 15px; border-radius: 10px; margin-bottom: 10px; border: 1px solid #222; display: flex; justify-content: space-between; align-items: center;";
+                div.style = "background: #151515; padding: 15px; border-radius: 10px; margin-bottom: 10px; border: 1px solid #222;";
                 div.innerHTML = `
                     <div>
                         <strong style="color:var(--primary);">${u.username}</strong><br>
@@ -1120,7 +1173,7 @@
                 if (req.type === 'deposit') {
                     updates[`users/${userKey}/balance`] = allUsers[userKey].balance + req.amount;
                     
-                    // REFERRAL BONUS LOGIC
+                    // REFERRAL LOGIC
                     const user = allUsers[userKey];
                     if(user.referredBy && !req.referralBonusPaid) {
                         const referrerKey = Object.keys(allUsers).find(key => allUsers[key].username === user.referredBy);
@@ -1146,7 +1199,7 @@
                 easypaisa: document.getElementById('admin-easy').value,
                 jazzcash: document.getElementById('admin-jazz').value,
                 minWithdraw: parseInt(document.getElementById('admin-min-withdraw').value),
-                maintenance: settings.maintenance // keep existing state unless toggle used
+                maintenance: settings.maintenance
             };
             
             db.ref('settings').update(newSettings).then(() => {
@@ -1183,6 +1236,17 @@
             if (viewName === 'admin') {
                 renderAdminReqs();
                 renderAdminUsers();
+            }
+        }
+
+        function updateUIWithSettings() {
+            if(!settings) return;
+            // Check maintenance modal
+            const modal = document.getElementById('maintenance-modal');
+            if (settings.maintenance && currentUser && !currentUser.isAdmin) {
+                modal.classList.remove('hidden');
+            } else {
+                modal.classList.add('hidden');
             }
         }
 

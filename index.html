@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>B MONEY - Real money platform</title>
+    <title>B MONEY - Real Investment</title>
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,15 +20,15 @@
     <style>
         /* --- CSS VARIABLES --- */
         :root {
-            --primary: #FFD700;
+            --primary: #FFD700; /* Gold */
             --primary-dark: #B8860B;
             --bg-dark: #050505;
             --bg-card: #121212;
             --text-light: #FFFFFF;
             --text-gray: #B0B0B0;
-            --green: #00C851;
-            --red: #ff4444;
-            --orange: #ffbb33;
+            --green: #00E676; /* Bright Green */
+            --red: #FF3D00;
+            --orange: #FFAB00;
             --glass: rgba(255, 255, 255, 0.05);
             --border: rgba(255, 255, 255, 0.1);
         }
@@ -68,8 +68,10 @@
             box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
         }
         .btn-primary:active { transform: scale(0.98); }
+        .btn-small { padding: 8px 16px; font-size: 0.8rem; width: auto; margin-top: 0; }
+        .btn-claim { background: linear-gradient(45deg, #00E676, #00C853); color: #000; box-shadow: 0 4px 10px rgba(0, 230, 118, 0.3); }
 
-        /* Toggle Switch (Request vs History) */
+        /* Toggle Switch */
         .toggle-container {
             display: flex;
             background: #1a1a1a;
@@ -136,19 +138,31 @@
         .balance-amount { font-size: 3rem; font-weight: 800; color: #fff; text-shadow: 0 0 20px rgba(0,0,0,0.5); }
         .currency { font-size: 1.2rem; color: var(--primary); vertical-align: top; margin-right: 5px; }
 
-        /* Sections */
         .section-title { padding: 0 25px; color: #666; font-size: 0.8rem; text-transform: uppercase; font-weight: 700; margin-bottom: 15px; display: flex; justify-content: space-between;}
         
-        /* Plans */
-        .plans-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 15px 20px 15px; }
+        /* Active Plans Grid */
+        .plans-container { display: grid; grid-template-columns: 1fr; gap: 15px; padding: 0 15px 20px 15px; }
         .plan-card { 
             background: #151515; border: 1px solid #2a2a2a; padding: 20px; border-radius: 16px; 
             text-align: center; transition: 0.3s; position: relative; overflow: hidden;
+            display: flex; flex-direction: column; justify-content: space-between;
         }
-        .plan-card:hover { border-color: var(--primary); transform: translateY(-5px); }
-        .plan-name { color: var(--primary); font-weight: bold; font-size: 1.1rem; margin-bottom: 5px; }
-        .plan-price { color: #fff; font-size: 1.4rem; font-weight: 700; margin: 10px 0; }
-        .plan-roi { color: var(--green); font-size: 0.9rem; margin-bottom: 15px; font-weight: 600; }
+        .plan-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        .plan-name { color: var(--primary); font-weight: bold; font-size: 1.1rem; }
+        .plan-price { color: #fff; font-size: 1.2rem; font-weight: 700; }
+        
+        .income-box {
+            background: rgba(0, 230, 118, 0.1);
+            border: 1px solid rgba(0, 230, 118, 0.2);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .income-label { font-size: 0.75rem; color: #aaa; margin-bottom: 5px; display: block; }
+        .income-val { font-size: 1.4rem; color: var(--green); font-weight: bold; }
+        
+        .timer-text { font-size: 0.8rem; color: var(--orange); margin-bottom: 10px; display: block; }
 
         /* Forms & Inputs */
         .form-section { padding: 20px; }
@@ -158,13 +172,8 @@
         
         .info-box { background: rgba(255, 215, 0, 0.05); padding: 15px; border-left: 4px solid var(--primary); margin-bottom: 20px; border-radius: 8px; font-size: 0.9rem; color: #ddd;}
 
-        /* --- HISTORY LISTS (New) --- */
-        .history-list {
-            max-height: 60vh;
-            overflow-y: auto;
-            padding-bottom: 20px;
-        }
-        /* Custom Scrollbar */
+        /* --- HISTORY LISTS --- */
+        .history-list { max-height: 60vh; overflow-y: auto; padding-bottom: 20px; }
         .history-list::-webkit-scrollbar { width: 4px; }
         .history-list::-webkit-scrollbar-track { background: #111; }
         .history-list::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
@@ -186,10 +195,7 @@
         
         .h-right { text-align: right; }
         .h-amount { color: #fff; font-weight: 700; font-size: 1.1rem; }
-        .h-status { 
-            font-size: 0.75rem; padding: 4px 10px; border-radius: 20px; font-weight: 600; 
-            display: inline-block; margin-top: 5px;
-        }
+        .h-status { font-size: 0.75rem; padding: 4px 10px; border-radius: 20px; font-weight: 600; display: inline-block; margin-top: 5px; }
         .status-pending { background: rgba(255, 187, 51, 0.15); color: var(--orange); }
         .status-approved { background: rgba(0, 200, 81, 0.15); color: var(--green); }
         .status-rejected { background: rgba(255, 68, 68, 0.15); color: var(--red); }
@@ -215,6 +221,8 @@
         }
         .toast.show { opacity: 1; transform: translateY(0); }
 
+        /* Shop Grid */
+        .shop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 15px 20px 15px; }
     </style>
 </head>
 <body>
@@ -263,20 +271,23 @@
             </div>
 
             <div class="section-title">
-                <span>Active Plans</span>
+                <span>My Active Plans</span>
                 <i class="ph ph-trend-up" style="color:var(--primary)"></i>
             </div>
-            <div class="active-plans-container" style="padding: 0 15px;">
-                <!-- Active plans injected via JS -->
-                <div id="active-plans-list"></div>
+            
+            <!-- Active Plans List (Logic Updated) -->
+            <div class="plans-container" style="padding: 0 15px;">
+                <div id="active-plans-list">
+                    <!-- Plans will load here -->
+                </div>
             </div>
 
-            <div class="section-title">
-                <span>Investment Plans</span>
-                <i class="ph ph-chart-line-up" style="color:var(--primary)"></i>
+            <div class="section-title" style="margin-top: 30px;">
+                <span>Buy New Plan</span>
+                <i class="ph ph-shopping-cart" style="color:var(--primary)"></i>
             </div>
-            <div class="plans-container" id="plans-grid">
-                <!-- Plans injected via JS -->
+            <div class="shop-grid" id="plans-shop">
+                <!-- Shop items injected via JS -->
             </div>
         </div>
 
@@ -286,14 +297,11 @@
                 <h2 style="color: var(--primary); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
                     <i class="ph ph-wallet"></i> Add Funds
                 </h2>
-                
-                <!-- Toggle: Request vs History -->
                 <div class="toggle-container">
                     <div class="toggle-btn active" id="dep-btn-req" onclick="switchDepWith('dep', 'req')">Request</div>
                     <div class="toggle-btn" id="dep-btn-hist" onclick="switchDepWith('dep', 'hist')">History</div>
                 </div>
 
-                <!-- Deposit Form -->
                 <div id="dep-form-container">
                     <div class="info-box">
                         <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
@@ -304,7 +312,6 @@
                         </div>
                         <p style="margin-top:10px; font-size:0.75rem; color:var(--green);">Send amount & enter TrxID below.</p>
                     </div>
-                    
                     <select id="dep-method" class="form-control">
                         <option value="Easypaisa">Easypaisa</option>
                         <option value="JazzCash">JazzCash</option>
@@ -314,12 +321,8 @@
                     <button class="btn btn-primary" onclick="submitDeposit()">Submit Request</button>
                 </div>
 
-                <!-- Deposit History List -->
                 <div id="dep-history-container" class="hidden">
-                    <div class="history-list" id="deposit-history-list">
-                        <!-- History Items Injected Here -->
-                        <div style="text-align:center; color:#555; padding:20px;">No history found.</div>
-                    </div>
+                    <div class="history-list" id="deposit-history-list"></div>
                 </div>
             </div>
         </div>
@@ -330,19 +333,15 @@
                 <h2 style="color: var(--primary); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
                     <i class="ph ph-money"></i> Withdraw Funds
                 </h2>
-
-                <!-- Toggle: Request vs History -->
                 <div class="toggle-container">
                     <div class="toggle-btn active" id="with-btn-req" onclick="switchDepWith('with', 'req')">Request</div>
                     <div class="toggle-btn" id="with-btn-hist" onclick="switchDepWith('with', 'hist')">History</div>
                 </div>
 
-                <!-- Withdraw Form -->
                 <div id="with-form-container">
                     <div class="info-box">
                         Available Balance: <span style="color:var(--primary); font-weight:bold; font-size:1.1rem;">PKR <span id="withdraw-avail">0</span></span>
                     </div>
-                    
                     <input type="number" id="with-account" class="form-control" placeholder="Account Number (03XX...)">
                     <input type="number" id="with-amount" class="form-control" placeholder="Amount (Min 500)">
                     <select id="with-method" class="form-control">
@@ -352,12 +351,8 @@
                     <button class="btn btn-primary" onclick="submitWithdraw()">Withdraw Now</button>
                 </div>
 
-                <!-- Withdraw History List -->
                 <div id="with-history-container" class="hidden">
-                    <div class="history-list" id="withdraw-history-list">
-                        <!-- History Items Injected Here -->
-                        <div style="text-align:center; color:#555; padding:20px;">No history found.</div>
-                    </div>
+                    <div class="history-list" id="withdraw-history-list"></div>
                 </div>
             </div>
         </div>
@@ -369,10 +364,10 @@
                 <div class="info-box" style="text-align: center; padding: 30px;">
                     <p style="color:#888; font-size:0.8rem; margin-bottom:10px;">YOUR REFERRAL CODE</p>
                     <h1 id="my-ref-code" style="font-size: 1.5rem; color: #fff; margin: 10px 0; letter-spacing: 2px;">...</h1>
-                    <button class="btn btn-primary" style="width: auto; padding: 10px 40px;" onclick="copyCode()">Copy Code</button>
+                    <button class="btn btn-primary btn-small" onclick="copyCode()">Copy Code</button>
                 </div>
                 <div class="info-box">
-                    <p><strong>How it works:</strong><br>Share your code. When a friend joins and deposits, you get a commission %30 bonus!</p>
+                    <p><strong>How it works:</strong><br>Share your code. When a friend joins and deposits, you get a commission 30% bonus!</p>
                 </div>
             </div>
         </div>
@@ -431,7 +426,6 @@
             toast.className = 'toast';
             toast.innerText = msg;
             container.appendChild(toast);
-            // Trigger reflow
             void toast.offsetWidth;
             toast.classList.add('show');
             setTimeout(() => {
@@ -449,12 +443,10 @@
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
             if(navEl) navEl.classList.add('active');
 
-            // Load history when switching to tabs
             if(viewName === 'deposit') loadDepositHistory();
             if(viewName === 'withdraw') loadWithdrawHistory();
         }
 
-        // Toggle between Form and History inside Dep/With
         function switchDepWith(type, mode) {
             const formCont = document.getElementById(type + '-form-container');
             const histCont = document.getElementById(type + '-history-container');
@@ -513,15 +505,14 @@
                 setTimeout(() => {
                     let user = simData.users[username];
                     if (isLoginMode) {
-                        if (user && user.password === password) {
-                            loginSuccess(username);
-                        } else showToast("Wrong credentials (Sim)");
+                        if (user && user.password === password) loginSuccess(username);
+                        else showToast("Wrong credentials (Sim)");
                     } else {
                         if (user) { showToast("User taken"); }
                         else {
                             simData.users[username] = { 
-                                password, balance: 500, referralCode: username.toUpperCase()+'123', plans: {} 
-                            }; // Bonus 500 for sim
+                                password, balance: 1000, referralCode: username.toUpperCase()+'123', plans: {} 
+                            };
                             loginSuccess(username);
                         }
                     }
@@ -555,101 +546,179 @@
             document.getElementById('app-section').classList.remove('hidden');
             document.getElementById('user-display-name').innerText = username;
             
-            // Start Listeners
             listenUserData();
             listenDepositHistory();
             listenWithdrawHistory();
         }
 
-        // --- 4. DATA LISTENERS ---
+        // --- 4. DATA LISTENERS & PLAN LOGIC ---
         function listenUserData() {
             const updateUI = (data) => {
                 if(!data) return;
-                document.getElementById('display-balance').innerText = data.balance || 0;
-                document.getElementById('withdraw-avail').innerText = data.balance || 0;
+                document.getElementById('display-balance').innerText = Math.floor(data.balance || 0);
+                document.getElementById('withdraw-avail').innerText = Math.floor(data.balance || 0);
                 document.getElementById('my-ref-code').innerText = data.referralCode || "N/A";
                 
-                const plansDiv = document.getElementById('active-plans-list');
-                plansDiv.innerHTML = "";
-                const plans = data.plans || {};
-                if(Object.keys(plans).length === 0) {
-                    plansDiv.innerHTML = `<div style="text-align:center; color:#444; padding:10px;">No active plans.</div>`;
-                } else {
-                    Object.values(plans).forEach(p => {
-                        plansDiv.innerHTML += `
-                        <div style="background:#111; border:1px solid #333; padding:12px; border-radius:10px; margin-bottom:10px; display:flex; justify-content:space-between;">
-                            <div><div style="font-weight:bold; color:#fff;">${p.name}</div><div style="font-size:0.8rem; color:var(--green);">Daily: ${p.roi}%</div></div>
-                            <div style="text-align:right;"><div style="color:var(--primary); font-weight:bold;">PKR ${p.amount}</div></div>
-                        </div>`;
-                    });
-                }
+                renderActivePlans(data.plans || {});
             };
 
             if(isSimulating) {
-                // Initial load
                 updateUI(simData.users[currentUser]);
-                // Mock realtime update (not fully recursive for sim)
             } else {
                 db.ref('users/' + currentUser).on('value', snap => updateUI(snap.val()));
             }
         }
 
-        // --- 5. HISTORY LOGIC (New) ---
-        
-        function listenDepositHistory() {
-            if(isSimulating) return; // Sim handles history on view switch for simplicity
+        function renderActivePlans(plans) {
+            const listDiv = document.getElementById('active-plans-list');
+            listDiv.innerHTML = "";
             
-            db.ref('depositRequests').on('value', snapshot => {
-                renderHistory(snapshot.val(), 'deposit');
-            });
-        }
+            const planKeys = Object.keys(plans);
 
-        function loadDepositHistory() {
-            if(isSimulating) {
-                const all = simData.depositRequests;
-                renderHistory(all, 'deposit');
-            }
-            // Realtime listener handles the rest
-        }
-
-        function listenWithdrawHistory() {
-            if(isSimulating) return;
-            db.ref('withdrawRequests').on('value', snapshot => {
-                renderHistory(snapshot.val(), 'withdraw');
-            });
-        }
-
-        function loadWithdrawHistory() {
-            if(isSimulating) {
-                const all = simData.withdrawRequests;
-                renderHistory(all, 'withdraw');
-            }
-        }
-
-        function renderHistory(data, type) {
-            const listId = type + '-history-list';
-            const container = document.getElementById(listId);
-            container.innerHTML = "";
-
-            if (!data) {
-                container.innerHTML = `<div style="text-align:center; color:#555; padding:20px;">No history found.</div>`;
+            if (planKeys.length === 0) {
+                listDiv.innerHTML = `<div style="text-align:center; color:#444; padding:20px; border:1px dashed #333; border-radius:10px;">No active plans. Buy a plan to start earning daily!</div>`;
                 return;
             }
 
-            // Convert object to array and reverse (newest first)
-            const items = Object.entries(data).reverse();
+            const now = new Date().getTime();
 
-            let hasItems = false;
-            items.forEach(([key, item]) => {
-                // Only show current user's history
+            planKeys.forEach(key => {
+                const p = plans[key];
+                const purchaseDate = p.startDate ? new Date(p.startDate).getTime() : now;
+                
+                // LOGIC: 24 Hours = 86400000 ms
+                const msPerDay = 86400000;
+                const daysPassed = Math.floor((now - purchaseDate) / msPerDay);
+                
+                // Calculate Pending Income
+                // Formula: DailyROI% of Plan Price * DaysPassed
+                const dailyIncome = Math.floor((p.amount * p.roi) / 100);
+                const totalPending = dailyIncome * daysPassed;
+                
+                // Calculate Next Claim Time
+                const nextClaimTime = purchaseDate + ((daysPassed + 1) * msPerDay);
+                const timeLeftMs = nextClaimTime - now;
+                
+                let hoursLeft = Math.floor((timeLeftMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                let minsLeft = Math.floor((timeLeftMs % (1000 * 60 * 60)) / (1000 * 60));
+                
+                // Check if Ready
+                const isReady = totalPending > 0;
+
+                const html = `
+                <div class="plan-card">
+                    <div class="plan-header">
+                        <div class="plan-name">${p.name}</div>
+                        <div class="plan-price">PKR ${p.amount}</div>
+                    </div>
+                    
+                    <div class="income-box">
+                        <span class="income-label">Available Income</span>
+                        <div class="income-val">PKR ${totalPending}</div>
+                    </div>
+
+                    ${isReady ? 
+                        `<button class="btn btn-primary btn-claim" onclick="claimIncome('${key}')">Claim Income</button>` : 
+                        `<span class="timer-text"><i class="ph ph-clock"></i> Next income in: ${hoursLeft}h ${minsLeft}m</span>`
+                    }
+                </div>`;
+                listDiv.innerHTML += html;
+            });
+        }
+
+        function claimIncome(planKey) {
+            const process = (userData) => {
+                const p = userData.plans[planKey];
+                const now = new Date().getTime();
+                const purchaseDate = new Date(p.startDate).getTime();
+                const daysPassed = Math.floor((now - purchaseDate) / 86400000);
+                const dailyIncome = Math.floor((p.amount * p.roi) / 100);
+                const totalPending = dailyIncome * daysPassed;
+
+                if(totalPending <= 0) return showToast("No income available yet.");
+
+                // Update Logic: Add money to balance AND reset start date
+                // Resetting start date to "now - 1 millisecond" effectively keeps the day count at 0 
+                // but preserves the plan validity, or we keep original date and just track paid days.
+                // Simpler approach for user: Reset start date to now so next cycle starts fresh.
+                
+                const updates = {
+                    ['users/' + currentUser + '/balance']: userData.balance + totalPending,
+                    ['users/' + currentUser + '/plans/' + planKey + '/startDate']: new Date().toISOString()
+                };
+
+                if(isSimulating) {
+                    simData.users[currentUser].balance += totalPending;
+                    simData.users[currentUser].plans[planKey].startDate = new Date().toISOString();
+                    listenUserData();
+                    showToast(`PKR ${totalPending} Claimed!`);
+                } else {
+                    db.ref().update(updates).then(() => {
+                        showToast(`PKR ${totalPending} Claimed!`);
+                    });
+                }
+            };
+
+            if(isSimulating) {
+                process(simData.users[currentUser]);
+            } else {
+                db.ref('users/' + currentUser).once('value').then(snap => process(snap.val()));
+            }
+        }
+
+        function buyPlan(name, price, roi) {
+            const process = (userData) => {
+                if(userData.balance < price) return showToast("Insufficient Balance!");
+                
+                const newPlan = { 
+                    name, amount: price, roi, 
+                    startDate: new Date().toISOString() 
+                };
+                
+                if(isSimulating) {
+                    simData.users[currentUser].balance -= price;
+                    const pid = 'plan_' + Date.now();
+                    simData.users[currentUser].plans[pid] = newPlan;
+                    listenUserData();
+                    showToast("Plan Activated! Claim income after 24h.");
+                } else {
+                    const updates = {
+                        ['users/' + currentUser + '/balance']: userData.balance - price,
+                        ['users/' + currentUser + '/plans/' + Date.now()]: newPlan
+                    };
+                    db.ref().update(updates).then(() => showToast("Plan Activated! Claim income after 24h."));
+                }
+            };
+
+            if(isSimulating) process(simData.users[currentUser]);
+            else db.ref('users/' + currentUser).once('value').then(s => process(s.val()));
+        }
+
+        // --- 5. HISTORY LOGIC ---
+        function listenDepositHistory() {
+            if(isSimulating) return;
+            db.ref('depositRequests').on('value', s => renderHistory(s.val(), 'deposit'));
+        }
+        function loadDepositHistory() { if(isSimulating) renderHistory(simData.depositRequests, 'deposit'); }
+        
+        function listenWithdrawHistory() {
+            if(isSimulating) return;
+            db.ref('withdrawRequests').on('value', s => renderHistory(s.val(), 'withdraw'));
+        }
+        function loadWithdrawHistory() { if(isSimulating) renderHistory(simData.withdrawRequests, 'withdraw'); }
+
+        function renderHistory(data, type) {
+            const container = document.getElementById(type + '-history-list');
+            container.innerHTML = "";
+            if (!data) { container.innerHTML = `<div style="text-align:center; color:#555; padding:20px;">No history found.</div>`; return; }
+            
+            Object.entries(data).reverse().forEach(([key, item]) => {
                 if (item.user !== currentUser) return;
-
-                hasItems = true;
                 const date = item.date ? new Date(item.date).toLocaleDateString() : 'Unknown';
                 const statusClass = item.status === 'pending' ? 'status-pending' : (item.status === 'approved' ? 'status-approved' : 'status-rejected');
                 const icon = item.method === 'Easypaisa' ? '<i class="ph ph-mobile"></i>' : '<i class="ph ph-bank"></i>';
 
-                const html = `
+                container.innerHTML += `
                 <div class="history-item">
                     <div class="h-left">
                         <div class="h-method">${icon} ${item.method}</div>
@@ -661,39 +730,25 @@
                         <div class="h-status ${statusClass}">${item.status.toUpperCase()}</div>
                     </div>
                 </div>`;
-                container.innerHTML += html;
             });
-
-            if(!hasItems) {
-                container.innerHTML = `<div style="text-align:center; color:#555; padding:20px;">No history found.</div>`;
-            }
         }
 
-        // --- 6. ACTIONS ---
-
+        // --- 6. DEPOSIT & WITHDRAW ---
         function submitDeposit() {
             const method = document.getElementById('dep-method').value;
             const amount = parseInt(document.getElementById('dep-amount').value);
             const trx = document.getElementById('dep-trx').value;
-
             if (!amount || !trx) return showToast("Enter Amount & TrxID");
 
             const reqData = { user: currentUser, method, amount, trxId: trx, status: 'pending', date: new Date().toISOString() };
-
             const finish = () => {
-                showToast("Deposit Request Sent!");
-                document.getElementById('dep-amount').value = "";
-                document.getElementById('dep-trx').value = "";
-                switchDepWith('dep', 'hist'); // Auto switch to history
+                showToast("Request Sent!");
+                document.getElementById('dep-amount').value = ""; document.getElementById('dep-trx').value = "";
+                switchDepWith('dep', 'hist');
             };
 
-            if(isSimulating) {
-                const key = 'dep_' + Date.now();
-                simData.depositRequests[key] = reqData;
-                finish();
-            } else {
-                db.ref('depositRequests').push(reqData).then(finish).catch(e => showToast(e.message));
-            }
+            if(isSimulating) { simData.depositRequests['dep_'+Date.now()] = reqData; finish(); }
+            else db.ref('depositRequests').push(reqData).then(finish).catch(e => showToast(e.message));
         }
 
         function submitWithdraw() {
@@ -704,57 +759,24 @@
             const checkBal = (bal) => {
                 if(amount > bal) return showToast("Insufficient Balance!");
                 if(amount < 500) return showToast("Min withdraw 500");
-
                 const reqData = { user: currentUser, amount, account, method, status: 'pending', date: new Date().toISOString() };
                 
                 if(isSimulating) {
-                    simData.users[currentUser].balance -= amount; // Deduct immediately in sim
-                    listenUserData(); // Update UI
-                    const key = 'with_' + Date.now();
-                    simData.withdrawRequests[key] = reqData;
-                    showToast("Withdraw Request Sent!");
-                    document.getElementById('with-amount').value = "";
-                    switchDepWith('with', 'hist');
+                    simData.users[currentUser].balance -= amount;
+                    listenUserData();
+                    simData.withdrawRequests['with_'+Date.now()] = reqData;
+                    showToast("Request Sent!");
+                    document.getElementById('with-amount').value = ""; switchDepWith('with', 'hist');
                 } else {
-                    db.ref('users/'+currentUser+'/balance').transaction(bal => bal - amount)
+                    db.ref('users/'+currentUser+'/balance').transaction(b => b - amount)
                     .then(() => db.ref('withdrawRequests').push(reqData))
-                    .then(() => {
-                        showToast("Withdraw Request Sent!");
-                        document.getElementById('with-amount').value = "";
-                        switchDepWith('with', 'hist');
-                    })
+                    .then(() => { showToast("Request Sent!"); document.getElementById('with-amount').value = ""; switchDepWith('with', 'hist'); })
                     .catch(e => showToast(e.message));
                 }
             };
 
-            if(isSimulating) {
-                checkBal(simData.users[currentUser].balance);
-            } else {
-                db.ref('users/' + currentUser + '/balance').once('value').then(s => checkBal(s.val()));
-            }
-        }
-
-        function buyPlan(name, price, roi) {
-            const process = (bal) => {
-                if(bal < price) return showToast("Insufficient Balance!");
-                
-                const newPlan = { name, amount: price, roi, startDate: new Date().toISOString() };
-                
-                if(isSimulating) {
-                    simData.users[currentUser].balance -= price;
-                    const pid = 'plan_' + Date.now();
-                    simData.users[currentUser].plans[pid] = newPlan;
-                    listenUserData();
-                    showToast("Plan Activated!");
-                } else {
-                    // Use transaction for safety
-                    db.ref('users/'+currentUser+'/balance').transaction(b => b - price);
-                    db.ref('users/'+currentUser+'/plans').push(newPlan).then(() => showToast("Plan Activated!"));
-                }
-            };
-
-            if(isSimulating) process(simData.users[currentUser].balance);
-            else db.ref('users/'+currentUser+'/balance').once('value').then(s => process(s.val()));
+            if(isSimulating) checkBal(simData.users[currentUser].balance);
+            else db.ref('users/' + currentUser + '/balance').once('value').then(s => checkBal(s.val()));
         }
 
         function copyCode() {
@@ -762,22 +784,23 @@
             navigator.clipboard.writeText(code).then(() => showToast("Code Copied!"));
         }
 
-        // --- 7. POPULATE PLANS ---
-        const plans = [
+        // --- 7. POPULATE SHOP ---
+        const plansData = [
             { id: 1, name: "Starter", price: 500, roi: 10 },
             { id: 2, name: "Basic", price: 1000, roi: 12 },
             { id: 3, name: "Pro", price: 5000, roi: 15 },
             { id: 4, name: "VIP", price: 10000, roi: 20 },
         ];
-
-        const plansGrid = document.getElementById('plans-grid');
-        plans.forEach(p => {
-            plansGrid.innerHTML += `
+        const shopGrid = document.getElementById('plans-shop');
+        plansData.forEach(p => {
+            shopGrid.innerHTML += `
             <div class="plan-card">
-                <div class="plan-name">${p.name}</div>
-                <div class="plan-price">PKR ${p.price}</div>
-                <div class="plan-roi">Daily ${p.roi}%</div>
-                <button class="btn btn-primary" style="padding: 10px; font-size: 0.8rem;" onclick="buyPlan('${p.name}', ${p.price}, ${p.roi})">BUY NOW</button>
+                <div class="plan-header">
+                    <div class="plan-name">${p.name}</div>
+                    <div class="plan-price">PKR ${p.price}</div>
+                </div>
+                <div class="plan-roi" style="color:var(--green); margin-bottom:15px;">Daily ${p.roi}%</div>
+                <button class="btn btn-primary btn-small" onclick="buyPlan('${p.name}', ${p.price}, ${p.roi})">BUY</button>
             </div>`;
         });
 

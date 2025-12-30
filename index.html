@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>B MONEY - Real Investment</title>
+    <title>B MONEY - Live Chat</title>
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,26 +20,27 @@
     <style>
         /* --- CSS VARIABLES --- */
         :root {
-            --primary: #FFD700; /* Gold */
+            --primary: #FFD700;
             --primary-dark: #B8860B;
             --bg-dark: #050505;
             --bg-card: #121212;
             --text-light: #FFFFFF;
             --text-gray: #B0B0B0;
-            --green: #00E676; /* Bright Green */
+            --green: #00E676;
             --red: #FF3D00;
             --orange: #FFAB00;
             --glass: rgba(255, 255, 255, 0.05);
             --border: rgba(255, 255, 255, 0.1);
+            --msg-sent: #FFD700;
+            --msg-recv: #333;
         }
 
         /* --- RESET & BASE --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--bg-dark); color: var(--text-light); padding-bottom: 90px; overflow-x: hidden; min-height: 100vh; }
         .hidden { display: none !important; }
-        .text-gold { color: var(--primary); }
         
-        /* --- LOGO ANIMATION --- */
+        /* --- LOGO --- */
         .b-money-logo {
             font-family: 'Oswald', sans-serif;
             font-size: 2.8rem;
@@ -53,11 +54,10 @@
             animation: shine 4s linear infinite;
             text-align: center;
             margin-bottom: 10px;
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
         }
         @keyframes shine { to { background-position: 200% center; } }
         
-        /* --- COMPONENTS --- */
+        /* --- BUTTONS --- */
         .btn { 
             padding: 14px 20px; border: none; border-radius: 50px; cursor: pointer; 
             font-weight: 700; transition: all 0.2s ease; width: 100%; font-size: 1rem; 
@@ -114,9 +114,7 @@
             width: 100%; padding: 14px; background: rgba(0,0,0,0.3); border: 1px solid #333; 
             color: white; border-radius: 12px; outline: none; transition: 0.3s; font-size: 1rem;
         }
-        .auth-card input:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(255,215,0,0.1); }
         .switch-auth { margin-top: 20px; color: #888; font-size: 0.85rem; cursor: pointer; }
-        .switch-auth:hover { color: var(--primary); text-decoration: underline; }
 
         /* --- HEADER --- */
         header { 
@@ -140,7 +138,7 @@
 
         .section-title { padding: 0 25px; color: #666; font-size: 0.8rem; text-transform: uppercase; font-weight: 700; margin-bottom: 15px; display: flex; justify-content: space-between;}
         
-        /* Active Plans Grid */
+        /* Plan Cards */
         .plans-container { display: grid; grid-template-columns: 1fr; gap: 15px; padding: 0 15px 20px 15px; }
         .plan-card { 
             background: #151515; border: 1px solid #2a2a2a; padding: 20px; border-radius: 16px; 
@@ -159,12 +157,10 @@
             margin-bottom: 15px;
             text-align: left;
         }
-        .income-label { font-size: 0.75rem; color: #aaa; margin-bottom: 5px; display: block; }
         .income-val { font-size: 1.4rem; color: var(--green); font-weight: bold; }
-        
         .timer-text { font-size: 0.8rem; color: var(--orange); margin-bottom: 10px; display: block; }
 
-        /* Forms & Inputs */
+        /* Forms */
         .form-section { padding: 20px; }
         .form-control { width: 100%; padding: 16px; background: #111; border: 1px solid #333; color: white; border-radius: 12px; margin-bottom: 15px; outline: none; font-size: 1rem; }
         .form-control:focus { border-color: var(--primary); }
@@ -172,29 +168,41 @@
         
         .info-box { background: rgba(255, 215, 0, 0.05); padding: 15px; border-left: 4px solid var(--primary); margin-bottom: 20px; border-radius: 8px; font-size: 0.9rem; color: #ddd;}
 
+        /* --- CHAT INTERFACE (NEW) --- */
+        .chat-container {
+            display: flex; flex-direction: column; height: calc(100vh - 140px);
+        }
+        .chat-messages {
+            flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px;
+        }
+        .message {
+            max-width: 80%; padding: 10px 15px; border-radius: 15px; font-size: 0.9rem; line-height: 1.4; position: relative;
+        }
+        .message.sent {
+            align-self: flex-end; background: var(--msg-sent); color: #000; border-bottom-right-radius: 2px;
+        }
+        .message.received {
+            align-self: flex-start; background: var(--msg-recv); color: #fff; border-bottom-left-radius: 2px;
+        }
+        .msg-time {
+            font-size: 0.65rem; opacity: 0.7; margin-top: 5px; display: block; text-align: right;
+        }
+        .chat-input-area {
+            padding: 10px; background: #111; border-top: 1px solid #333; display: flex; gap: 10px;
+        }
+        .chat-input {
+            flex: 1; padding: 12px; background: #222; border: 1px solid #444; color: white; border-radius: 25px; outline: none;
+        }
+        .send-btn {
+            background: var(--primary); border: none; color: black; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;
+        }
+
         /* --- HISTORY LISTS --- */
         .history-list { max-height: 60vh; overflow-y: auto; padding-bottom: 20px; }
-        .history-list::-webkit-scrollbar { width: 4px; }
-        .history-list::-webkit-scrollbar-track { background: #111; }
-        .history-list::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
-
-        .history-item {
-            background: #151515;
-            border: 1px solid #222;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+        .history-item { background: #151515; border: 1px solid #222; padding: 15px; border-radius: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
         .h-left { display: flex; flex-direction: column; gap: 4px; }
         .h-method { font-weight: 600; color: #fff; font-size: 1rem; display: flex; align-items: center; gap: 8px; }
         .h-trx { font-size: 0.75rem; color: #666; font-family: monospace; }
-        .h-date { font-size: 0.75rem; color: #888; }
-        
-        .h-right { text-align: right; }
-        .h-amount { color: #fff; font-weight: 700; font-size: 1.1rem; }
         .h-status { font-size: 0.75rem; padding: 4px 10px; border-radius: 20px; font-weight: 600; display: inline-block; margin-top: 5px; }
         .status-pending { background: rgba(255, 187, 51, 0.15); color: var(--orange); }
         .status-approved { background: rgba(0, 200, 81, 0.15); color: var(--green); }
@@ -275,19 +283,28 @@
                 <i class="ph ph-trend-up" style="color:var(--primary)"></i>
             </div>
             
-            <!-- Active Plans List (Logic Updated) -->
             <div class="plans-container" style="padding: 0 15px;">
-                <div id="active-plans-list">
-                    <!-- Plans will load here -->
-                </div>
+                <div id="active-plans-list"></div>
             </div>
 
             <div class="section-title" style="margin-top: 30px;">
                 <span>Buy New Plan</span>
                 <i class="ph ph-shopping-cart" style="color:var(--primary)"></i>
             </div>
-            <div class="shop-grid" id="plans-shop">
-                <!-- Shop items injected via JS -->
+            <div class="shop-grid" id="plans-shop"></div>
+        </div>
+
+        <!-- CHAT VIEW (NEW) -->
+        <div id="view-chat" class="hidden chat-container">
+            <div class="chat-messages" id="chat-list">
+                <!-- Messages Load Here -->
+                <div style="text-align:center; color:#555; margin-top:20px;">Support is online.</div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="msg-input" class="chat-input" placeholder="Type a message...">
+                <button class="send-btn" onclick="sendMessage()">
+                    <i class="ph ph-paper-plane-right" style="font-size:1.2rem; color:black;"></i>
+                </button>
             </div>
         </div>
 
@@ -310,7 +327,6 @@
                         <div style="display:flex; justify-content:space-between;">
                             <strong>JazzCash:</strong> <span>Maintenance</span>
                         </div>
-                        <p style="margin-top:10px; font-size:0.75rem; color:var(--green);">Send amount & enter TrxID below.</p>
                     </div>
                     <select id="dep-method" class="form-control">
                         <option value="Easypaisa">Easypaisa</option>
@@ -378,6 +394,10 @@
                 <i class="ph ph-house nav-icon"></i>
                 <span class="nav-label">Home</span>
             </div>
+            <div class="nav-item" onclick="switchView('chat', this)">
+                <i class="ph ph-chat-circle-dots nav-icon"></i>
+                <span class="nav-label">Live Chat</span>
+            </div>
             <div class="nav-item" onclick="switchView('deposit', this)">
                 <i class="ph ph-download-simple nav-icon"></i>
                 <span class="nav-label">Deposit</span>
@@ -408,7 +428,7 @@
         };
 
         let db, currentUser, isLoginMode = true, isSimulating = false;
-        let simData = { users: {}, depositRequests: {}, withdrawRequests: {} }; // Local fallback storage
+        let simData = { users: {}, depositRequests: {}, withdrawRequests: {}, chatMessages: [] };
 
         // Initialize
         try {
@@ -435,7 +455,7 @@
         }
 
         function switchView(viewName, navEl) {
-            ['dashboard', 'deposit', 'withdraw', 'invite'].forEach(v => {
+            ['dashboard', 'chat', 'deposit', 'withdraw', 'invite'].forEach(v => {
                 document.getElementById('view-' + v).classList.add('hidden');
             });
             document.getElementById('view-' + viewName).classList.remove('hidden');
@@ -445,6 +465,7 @@
 
             if(viewName === 'deposit') loadDepositHistory();
             if(viewName === 'withdraw') loadWithdrawHistory();
+            if(viewName === 'chat') loadChatMessages();
         }
 
         function switchDepWith(type, mode) {
@@ -463,7 +484,6 @@
                 histCont.classList.remove('hidden');
                 btnReq.classList.remove('active');
                 btnHist.classList.add('active');
-                
                 if(type === 'dep') loadDepositHistory();
                 if(type === 'with') loadWithdrawHistory();
             }
@@ -510,9 +530,7 @@
                     } else {
                         if (user) { showToast("User taken"); }
                         else {
-                            simData.users[username] = { 
-                                password, balance: 1000, referralCode: username.toUpperCase()+'123', plans: {} 
-                            };
+                            simData.users[username] = { password, balance: 1000, referralCode: username.toUpperCase()+'123', plans: {} };
                             loginSuccess(username);
                         }
                     }
@@ -549,30 +567,112 @@
             listenUserData();
             listenDepositHistory();
             listenWithdrawHistory();
+            listenChat(); // Start listening to chat
         }
 
-        // --- 4. DATA LISTENERS & PLAN LOGIC ---
+        // --- 4. CHAT LOGIC (NEW) ---
+        function listenChat() {
+            const list = document.getElementById('chat-list');
+            
+            if(isSimulating) {
+                // Init sim chat if empty
+                if(simData.chatMessages.length === 0) {
+                    simData.chatMessages.push({ text: "Hello! How can I help you today?", sender: "admin", time: new Date().toISOString() });
+                }
+                loadChatMessages();
+            } else {
+                // Realtime listener
+                db.ref('chat').on('value', snap => {
+                    const data = snap.val();
+                    list.innerHTML = "";
+                    if(data) {
+                        Object.values(data).forEach(msg => {
+                            const isMe = msg.sender === currentUser;
+                            const typeClass = isMe ? 'sent' : 'received';
+                            const date = msg.time ? new Date(msg.time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : '';
+                            
+                            list.innerHTML += `
+                            <div class="message ${typeClass}">
+                                ${msg.text}
+                                <span class="msg-time">${date}</span>
+                            </div>`;
+                        });
+                    }
+                    // Auto scroll
+                    list.scrollTop = list.scrollHeight;
+                });
+            }
+        }
+
+        function loadChatMessages() {
+            // Used for simulation or manual refresh
+            const list = document.getElementById('chat-list');
+            list.innerHTML = "";
+            if(isSimulating && simData.chatMessages) {
+                simData.chatMessages.forEach(msg => {
+                    const isMe = msg.sender === currentUser;
+                    const typeClass = isMe ? 'sent' : 'received';
+                    const date = msg.time ? new Date(msg.time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : '';
+                    
+                    list.innerHTML += `
+                    <div class="message ${typeClass}">
+                        ${msg.text}
+                        <span class="msg-time">${date}</span>
+                    </div>`;
+                });
+                list.scrollTop = list.scrollHeight;
+            }
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('msg-input');
+            const text = input.value.trim();
+            if(!text) return;
+
+            const msgObj = {
+                text: text,
+                sender: currentUser,
+                time: new Date().toISOString()
+            };
+
+            if(isSimulating) {
+                simData.chatMessages.push(msgObj);
+                loadChatMessages();
+                input.value = "";
+                
+                // Fake Admin Reply
+                setTimeout(() => {
+                    simData.chatMessages.push({
+                        text: "Thanks for your message! An agent will reply shortly.",
+                        sender: "admin",
+                        time: new Date().toISOString()
+                    });
+                    loadChatMessages();
+                }, 2000);
+            } else {
+                db.ref('chat').push(msgObj).then(() => {
+                    input.value = "";
+                });
+            }
+        }
+
+        // --- 5. DATA LISTENERS & PLAN LOGIC ---
         function listenUserData() {
             const updateUI = (data) => {
                 if(!data) return;
                 document.getElementById('display-balance').innerText = Math.floor(data.balance || 0);
                 document.getElementById('withdraw-avail').innerText = Math.floor(data.balance || 0);
                 document.getElementById('my-ref-code').innerText = data.referralCode || "N/A";
-                
                 renderActivePlans(data.plans || {});
             };
 
-            if(isSimulating) {
-                updateUI(simData.users[currentUser]);
-            } else {
-                db.ref('users/' + currentUser).on('value', snap => updateUI(snap.val()));
-            }
+            if(isSimulating) updateUI(simData.users[currentUser]);
+            else db.ref('users/' + currentUser).on('value', snap => updateUI(snap.val()));
         }
 
         function renderActivePlans(plans) {
             const listDiv = document.getElementById('active-plans-list');
             listDiv.innerHTML = "";
-            
             const planKeys = Object.keys(plans);
 
             if (planKeys.length === 0) {
@@ -585,24 +685,15 @@
             planKeys.forEach(key => {
                 const p = plans[key];
                 const purchaseDate = p.startDate ? new Date(p.startDate).getTime() : now;
-                
-                // LOGIC: 24 Hours = 86400000 ms
                 const msPerDay = 86400000;
                 const daysPassed = Math.floor((now - purchaseDate) / msPerDay);
-                
-                // Calculate Pending Income
-                // Formula: DailyROI% of Plan Price * DaysPassed
                 const dailyIncome = Math.floor((p.amount * p.roi) / 100);
                 const totalPending = dailyIncome * daysPassed;
                 
-                // Calculate Next Claim Time
                 const nextClaimTime = purchaseDate + ((daysPassed + 1) * msPerDay);
                 const timeLeftMs = nextClaimTime - now;
-                
                 let hoursLeft = Math.floor((timeLeftMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 let minsLeft = Math.floor((timeLeftMs % (1000 * 60 * 60)) / (1000 * 60));
-                
-                // Check if Ready
                 const isReady = totalPending > 0;
 
                 const html = `
@@ -637,11 +728,6 @@
 
                 if(totalPending <= 0) return showToast("No income available yet.");
 
-                // Update Logic: Add money to balance AND reset start date
-                // Resetting start date to "now - 1 millisecond" effectively keeps the day count at 0 
-                // but preserves the plan validity, or we keep original date and just track paid days.
-                // Simpler approach for user: Reset start date to now so next cycle starts fresh.
-                
                 const updates = {
                     ['users/' + currentUser + '/balance']: userData.balance + totalPending,
                     ['users/' + currentUser + '/plans/' + planKey + '/startDate']: new Date().toISOString()
@@ -653,27 +739,18 @@
                     listenUserData();
                     showToast(`PKR ${totalPending} Claimed!`);
                 } else {
-                    db.ref().update(updates).then(() => {
-                        showToast(`PKR ${totalPending} Claimed!`);
-                    });
+                    db.ref().update(updates).then(() => showToast(`PKR ${totalPending} Claimed!`));
                 }
             };
 
-            if(isSimulating) {
-                process(simData.users[currentUser]);
-            } else {
-                db.ref('users/' + currentUser).once('value').then(snap => process(snap.val()));
-            }
+            if(isSimulating) process(simData.users[currentUser]);
+            else db.ref('users/' + currentUser).once('value').then(snap => process(snap.val()));
         }
 
         function buyPlan(name, price, roi) {
             const process = (userData) => {
                 if(userData.balance < price) return showToast("Insufficient Balance!");
-                
-                const newPlan = { 
-                    name, amount: price, roi, 
-                    startDate: new Date().toISOString() 
-                };
+                const newPlan = { name, amount: price, roi, startDate: new Date().toISOString() };
                 
                 if(isSimulating) {
                     simData.users[currentUser].balance -= price;
@@ -694,7 +771,7 @@
             else db.ref('users/' + currentUser).once('value').then(s => process(s.val()));
         }
 
-        // --- 5. HISTORY LOGIC ---
+        // --- 6. HISTORY LOGIC ---
         function listenDepositHistory() {
             if(isSimulating) return;
             db.ref('depositRequests').on('value', s => renderHistory(s.val(), 'deposit'));
@@ -733,7 +810,7 @@
             });
         }
 
-        // --- 6. DEPOSIT & WITHDRAW ---
+        // --- 7. DEPOSIT & WITHDRAW ---
         function submitDeposit() {
             const method = document.getElementById('dep-method').value;
             const amount = parseInt(document.getElementById('dep-amount').value);
@@ -784,7 +861,7 @@
             navigator.clipboard.writeText(code).then(() => showToast("Code Copied!"));
         }
 
-        // --- 7. POPULATE SHOP ---
+        // --- 8. POPULATE SHOP ---
         const plansData = [
             { id: 1, name: "Starter", price: 500, roi: 10 },
             { id: 2, name: "Basic", price: 1000, roi: 12 },

@@ -21,6 +21,7 @@
         /* --- CSS VARIABLES --- */
         :root {
             --primary: #FFD700;
+            --primary-dark: #B8860B;
             --bg-dark: #050505;
             --bg-card: #121212;
             --text-light: #FFFFFF;
@@ -66,32 +67,7 @@
         }
         .btn-primary:active { transform: scale(0.98); }
         .btn-small { padding: 8px 16px; font-size: 0.8rem; width: auto; margin-top: 0; }
-
-        /* Toggle Switch */
-        .toggle-container {
-            display: flex;
-            background: #1a1a1a;
-            border-radius: 30px;
-            padding: 4px;
-            margin-bottom: 20px;
-            border: 1px solid #333;
-        }
-        .toggle-btn {
-            flex: 1;
-            padding: 10px;
-            text-align: center;
-            border-radius: 25px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #888;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .toggle-btn.active {
-            background: var(--primary);
-            color: #000;
-            box-shadow: 0 2px 10px rgba(255, 215, 0, 0.2);
-        }
+        .btn-claim { background: linear-gradient(45deg, #00E676, #00C853); color: #000; box-shadow: 0 4px 10px rgba(0, 230, 118, 0.3); }
 
         /* --- AUTH SCREEN --- */
         #auth-section { 
@@ -101,7 +77,7 @@
         .auth-card { 
             background: rgba(30, 30, 30, 0.6); backdrop-filter: blur(20px);
             padding: 40px 25px; border-radius: 25px; width: 100%; max-width: 360px; 
-            text-align: center; border: 1px solid rgba(255, 215, 0, 0.2);
+            text-align: center; border:  1px solid rgba(255, 215, 0, 0.2);
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
         .input-group { margin-bottom: 15px; text-align: left; }
@@ -130,7 +106,7 @@
             background: radial-gradient(circle, rgba(255,215,0,0.05) 0%, transparent 70%);
         }
         .balance-amount { font-size: 3rem; font-weight: 800; color: #fff; text-shadow: 0 0 20px rgba(0,0,0,0.5); }
-        .currency { font-size: 1.2rem; color: var(--primary); vertical-align: top; margin-right: 5px; }
+        .currency { font-size: 1.2rem; color: var(--primary); vertical-align: margin-right: 5px; }
 
         .section-title { padding: 0 25px; color: #666; font-size: 0.8rem; text-transform: uppercase; font-weight: 700; margin-bottom: 15px; display: flex; justify-content: space-between;}
         
@@ -151,7 +127,7 @@
             padding: 15px;
             border-radius: 12px;
             margin-bottom: 15px;
-            text-align: left;
+            text-align: circle;
         }
         .income-val { font-size: 1.4rem; color: var(--green); font-weight: bold; }
         .timer-text { font-size: 0.8rem; color: var(--orange); margin-bottom: 10px; display: block; }
@@ -164,15 +140,13 @@
         
         .info-box { background: rgba(255, 215, 0, 0.05); padding: 15px; border-left: 4px solid var(--primary); margin-bottom: 20px; border-radius: 8px; font-size: 0.9rem; color: #ddd;}
 
-        /* --- CHAT INTERFACE (FIXED CSS) --- */
+        /* --- CHAT INTERFACE --- */
         .chat-container {
             display: flex;
             flex-direction: column;
-            /* Height taaki message scroll ho sake */
-            height: calc(100vh - 70px); 
+            height: calc(100vh - 70px);
             max-height: 800px;
         }
-
         .chat-messages {
             flex: 1;
             overflow-y: auto;
@@ -182,7 +156,6 @@
             gap: 12px;
             background-color: #000;
         }
-
         .message {
             max-width: 80%;
             padding: 10px 15px;
@@ -192,23 +165,18 @@
             position: relative;
             word-wrap: break-word;
         }
-
-        /* User sent message */
         .message.sent {
             align-self: flex-end;
             background: var(--msg-sent);
             color: #000;
             border-bottom-right-radius: 2px;
         }
-
-        /* Admin received message */
         .message.received {
             align-self: flex-start;
             background: var(--msg-recv);
             color: #fff;
             border-bottom-left-radius: 2px;
         }
-
         .msg-meta {
             display: flex;
             justify-content: flex-end;
@@ -218,10 +186,10 @@
         }
         .msg-time { font-size: 0.65rem; opacity: 0.7; }
         
-        /* Tick Icons Styles */
+        /* Tick Styles */
         .tick-icon { font-size: 0.9rem; line-height: 1; display: inline-block; }
-        .tick-red { color: var(--red); font-weight: bold; } /* Unread - Red */
-        .tick-green { color: var(--green); } /* Read - Green */
+        .tick-red { color: var(--red); font-weight: bold; } 
+        .tick-green { color: var(--green); }
         
         .chat-input-area { padding: 10px; background: #111; border-top: 1px solid #333; display: flex; gap: 10px; }
         .chat-input { flex: 1; padding: 12px; background: #222; border: 1px solid #444; color: white; border-radius: 25px; outline: none; }
@@ -232,7 +200,7 @@
         .history-item { background: #151515; border: 1px solid #222; padding: 15px; border-radius: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
         .h-left { display: flex; flex-direction: column; gap: 4px; }
         .h-method { font-weight: 600; color: #fff; font-size: 1rem; display: flex; align-items: center; gap: 8px; }
-        .h-trx { font-size: 0.75rem; color: #666; font-family: monospace; }
+        .h-trx { font-size: 0. tick; color: #666; font-family: monospace; }
         .h-status { font-size: 0.75rem; padding: 4px 10px; border-radius: 20px; font-weight: 600; display: inline-block; margin-top: 5px; }
         .status-pending { background: rgba(255, 187, 51, 0.15); color: var(--orange); }
         .status-approved { background: rgba(0, 200, 81, 0.15); color: var(--green); }
@@ -261,6 +229,19 @@
 
         /* Shop Grid */
         .shop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 15px 20px 15px; }
+        
+        /* Lock Screen Overlay */
+        #lock-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); z-index: 200;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+        .lock-circle {
+            width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--primary);
+            display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--primary);
+            margin-bottom: 20px; cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -324,7 +305,7 @@
             <div class="shop-grid" id="plans-shop"></div>
         </div>
 
-        <!-- CHAT VIEW (FIXED) -->
+        <!-- CHAT VIEW (UPDATED) -->
         <div id="view-chat" class="hidden chat-container">
             <div class="chat-messages" id="chat-list">
                 <!-- Messages Load Here -->
@@ -362,7 +343,7 @@
                         <option value="Easypaisa">Easypaisa</option>
                         <option value="JazzCash">JazzCash</option>
                     </select>
-                    <input type="number" id="dep-amount" class="form-control" message="Amount (PKR)">
+                    <input type="number" id="dep-amount" class="form-control" placeholder="Amount (PKR)">
                     <input type="text" id="dep-trx" class="form-control" placeholder="Transaction ID">
                     <button class="btn btn-primary" onclick="submitDeposit()">Submit Request</button>
                 </div>
@@ -406,7 +387,7 @@
         <!-- INVITE VIEW -->
         <div id="view-invite" class="hidden">
             <div class="form-section">
-                <h2 style="color: var(--primary); text-align: center; margin-bottom: 30px;">Invite & Earn</h2>
+                <d style="color: var(--primary); text-align: center; margin-bottom: 30px;">Invite & Earn</h2>
                 <div class="info-box" style="text-align: center; padding: 30px;">
                     <p style="color:#888; font-size:0.8rem; margin-bottom:10px;">YOUR REFERRAL CODE</p>
                     <h1 id="my-ref-code" style="font-size: 1.5rem; color: #fff; margin: 10px 0; letter-spacing: 2px;">...</h1>
@@ -428,10 +409,10 @@
                 <span class="nav-label">Home</span>
             </div>
             <div class="nav-item" onclick="switchView('deposit')">
-                <i class="ph ph-wallet nav-icon"></i>
+                issue <i class="ph ph-wallet nav-icon"></i>
                 <span class="nav-label">Deposit</span>
             </div>
-            <div class="nav-item" onclick="switchView('chat')">
+            <div class="nav-item" onclick="openLockScreen()">
                 <div style="position: relative;">
                     <i class="ph ph-chat-circle-dots nav-icon"></i>
                     <!-- Notification Badge -->
@@ -449,6 +430,15 @@
             </div>
         </div>
     </section>
+
+    <!-- LOCK SCREEN OVERLAY -->
+    <div id="lock-screen" class="hidden">
+        <div class="lock-circle" onclick="unlockChat()">
+            <i class="ph ph-fingerprint"></i>
+        </div>
+        <h3 style="color: white; margin-bottom: 10px;">Tap to Unlock Chat</h3>
+        <p style="color: #888; font-size: 0.8rem;">Secure Access</p>
+    </div>
 
     <script>
         // --- 1. FIREBASE CONFIG ---
@@ -504,7 +494,6 @@
 
             if(!user || !pass) return showToast("Please fill all fields");
 
-            // Login Logic
             db.ref('users/' + user).once('value').then(snap => {
                 const exists = snap.exists();
                 const data = snap.val();
@@ -521,7 +510,6 @@
                         refBy: ref
                     };
                     
-                    // Add Referral Commission
                     if(ref) {
                         db.ref('users/' + ref).transaction(b => (b || 0) + 50);
                     }
@@ -532,7 +520,6 @@
                     });
 
                 } else {
-                    // Login
                     if(!exists || data.password !== pass) return showToast("Invalid Credentials");
                     
                     localStorage.setItem('bmoney_user', user);
@@ -549,28 +536,21 @@
             document.getElementById('user-display-name').innerText = currentUser;
             loadBalance();
             loadPlans();
-            
-            // Chat Listener KO SURU KARO
-            listenChat();
-            
+            listenChat(); // Chat listener start karein
             loadWithdrawHistory();
             loadDepositHistory();
         }
 
-        // --- 5. NAVIGATION ---
+        // --- 5. NAVIGATION & LOCK SCREEN ---
         function switchView(viewName) {
-            // Hide all
+            // Hide all views
             ['view-dashboard', 'view-chat', 'view-deposit', 'view-withdraw', 'view-invite'].forEach(id => {
                 document.getElementById(id).classList.add('hidden');
             });
 
             // Show target
             if(viewName === 'dashboard') document.getElementById('view-dashboard').classList.remove('hidden');
-            if(viewName === 'chat') {
-                document.getElementById('view-chat').classList.remove('hidden');
-                // Jab chat khule, messages ko READ mark karo
-                markMessagesRead();
-            }
+            // Note: Chat lock se handle hoga, direct switchView se nahi
             if(viewName === 'deposit') document.getElementById('view-deposit').classList.remove('hidden');
             if(viewName === 'withdraw') {
                 loadWithdrawHistory();
@@ -583,7 +563,129 @@
             event.currentTarget.classList.add('active');
         }
 
-        // --- 6. DASHBOARD LOGIC ---
+        // Chat Lock Logic
+        function openLockScreen() {
+            // Lock Screen dikhao
+            document.getElementById('lock-screen').classList.remove('hidden');
+        }
+
+        function unlockChat() {
+            // Screen unlock karo, messages ko read mark karo
+            document.getElementById('lock-screen').classList.add('hidden');
+            
+            // Show Chat View
+            ['view-dashboard', 'view-chat', 'view-deposit', 'view-withdraw', 'view-invite'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            document.getElementById('view-chat').classList.remove('hidden');
+
+            // Unread messages ko read mark karo
+            markMessagesRead();
+        }
+
+        // --- 6. CHAT SYSTEM (RED/GREEN TICK LOGIC) ---
+        
+        function listenChat() {
+            const chatRef = db.ref('chats/' + currentUser);
+            
+            chatRef.on('value', snap => {
+                const list = document.getElementById('chat-list');
+                // Agar chat view khula hai toh refresh karo
+                if(!document.getElementById('view-chat').classList.contains('hidden')) {
+                   list.innerHTML = ""; 
+                }
+                
+                const msgs = snap.val();
+                let hasUnread = false;
+
+                if(msgs) {
+                    Object.keys(msgs).forEach(key => {
+                        const m = msgs[key];
+                        
+                        // CHECK UNREAD
+                        if(m.sender === 'admin' && !m.read) {
+                            hasUnread = true;
+                        }
+
+                        const div = document.createElement('div');
+                        const isSent = (m.sender === 'user');
+                        div.className = `message ${isSent ? 'sent' : 'received'}`;
+                        
+                        const time = m.time || "Now";
+
+                        // TICK LOGIC
+                        let tickHtml = '';
+                        if(isSent) {
+                            // User message - Grey Tick
+                            tickHtml = `<i class="ph ph-check tick-icon" style="color:#888;"></i>`;
+                        } else {
+                            // Admin Message
+                            if(m.read === false) {
+                                // RED TICK (Unread)
+                                tickHtml = `<i class="ph ph-check-circle tick-icon tick-red"></i>`;
+                            } else {
+                                // GREEN TICK (Read)
+                                tickHtml = `<i class="ph ph-check-circle tick-icon tick-green"></i>`;
+                            }
+                        }
+
+                        div.innerHTML = `
+                            ${m.text}
+                            <div class="msg-meta">
+                                <span class="msg-time">${time}</span>
+                                ${!isSent ? tickHtml : ''} 
+                            </div>
+                        `;
+                        list.appendChild(div);
+                    });
+                    
+                    // Auto scroll
+                    list.scrollTop = list.scrollHeight;
+                } else {
+                    list.innerHTML = "<div style='text-align:center; color:#555; margin-top:20px;'>Start chatting with support...</div>";
+                }
+
+                // Update Badge
+                const badge = document.getElementById('chat-badge');
+                if(hasUnread) {
+                    badge.classList.remove('hidden');
+                } else {
+                    badge.classList.add('hidden');
+                }
+            });
+        }
+
+        function markMessagesRead() {
+            const chatRef = db.ref('chats/' + currentUser);
+            chatRef.once('value', snap => {
+                const msgs = snap.val();
+                if(msgs) {
+                    Object.keys(msgs).forEach(key => {
+                        // Sirf admin ke unread messages ko read karo
+                        if(msgs[key].sender === 'admin' && msgs[key].read === false) {
+                            chatRef.child(key).update({read: true});
+                        }
+                    });
+                }
+            });
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('msg-input');
+            const text = input.value.trim();
+            if(!text) return;
+
+            const newMsgRef = db.ref('chats/' + currentUser).push();
+            newMsgRef.set({
+                sender: 'user',
+                text: text,
+                time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+                read: false 
+            });
+            input.value = "";
+        }
+
+        // --- 7. DASHBOARD LOGIC ---
         function loadBalance() {
             db.ref('users/' + currentUser + '/balance').on('value', snap => {
                 document.getElementById('display-balance').innerText = snap.val() || 0;
@@ -632,7 +734,8 @@
                         id: id,
                         buyPrice: price,
                         status: 'active',
-                        buyDate: new Date().getTime()
+                        buyDate: new Date().getTime(),
+                        lastClaimDate: null // Init for daily bonus
                     });
                     showToast("Plan Purchased Successfully!");
                 }
@@ -667,118 +770,22 @@
         }
 
         function claimIncome(planKey) {
-            db.ref('users/' + currentUser + '/plans/' + planKey).update({status: 'completed'}).then(() => {
-                db.ref('users/' + currentUser + '/balance').transaction(b => (b || 0) + 150);
-                showToast("Income Claimed!");
-            });
-        }
-
-        // --- 7. CHAT SYSTEM (FIXED LOGIC) ---
-        
-        // Function to listen for messages
-        function listenChat() {
-            const chatRef = db.ref('chats/' + currentUser);
-            
-            chatRef.on('value', snap => {
-                const list = document.getElementById('chat-list');
-                // List ko sirf tab clear karein agar chat view khula hai, 
-                // taaki dusre tabs mein re-render ho na baar baar
-                // Lekin simplicity ke liye hum hamesha update karenge content
-                if(!document.getElementById('view-chat').classList.contains('hidden')) {
-                   list.innerHTML = ""; 
-                }
+            db.ref('users/' + currentUser + '/plans/' + planKey).once('value').then(snap => {
+                const planData = snap.val();
+                const now = new Date().getTime();
                 
-                const msgs = snap.val();
-                let hasUnread = false;
-
-                if(msgs) {
-                    // Loop through all messages
-                    Object.keys(msgs).forEach(key => {
-                        const m = msgs[key];
-                        
-                        // CHECK FOR UNREAD MESSAGES (Admin msg & read=false)
-                        if(m.sender === 'admin' && !m.read) {
-                            hasUnread = true;
-                        }
-
-                        // Create HTML
-                        const div = document.createElement('div');
-                        const isSent = (m.sender === 'user');
-                        div.className = `message ${isSent ? 'sent' : 'received'}`;
-                        
-                        const time = m.time || "Now";
-
-                        // TICK LOGIC
-                        let tickHtml = '';
-                        if(isSent) {
-                            // User sent message (Just a grey tick)
-                            tickHtml = `<i class="ph ph-check tick-icon" style="color:#888;"></i>`;
-                        } else {
-                            // Admin sent message
-                            if(m.read === false) {
-                                // RED TICK (Unread)
-                                tickHtml = `<i class="ph ph-check-circle tick-icon tick-red"></i>`;
-                            } else {
-                                // GREEN TICK (Read)
-                                tickHtml = `<i class="ph ph-check-circle tick-icon tick-green"></i>`;
-                            }
-                        }
-
-                        div.innerHTML = `
-                            ${m.text}
-                            <div class="msg-meta">
-                                <span class="msg-time">${time}</span>
-                                ${!isSent ? tickHtml : ''} 
-                            </div>
-                        `;
-                        list.appendChild(div);
-                    });
-                    
-                    // Auto scroll to bottom
-                    list.scrollTop = list.scrollHeight;
-                } else {
-                    // No messages
-                    list.innerHTML = "<div style='text-align:center; color:#555; margin-top:20px;'>Start chatting with support...</div>";
+                // Check if 24 hours passed (86400000 ms)
+                if(planData.lastClaimDate && (now - planData.lastClaimDate < 86400000)) {
+                    const hoursLeft = Math.ceil((86400000 - (now - planData.lastClaimDate)) / 3600000);
+                    return showToast(`Wait ${hoursLeft} hours more.`);
                 }
 
-                // Update Badge
-                const badge = document.getElementById('chat-badge');
-                if(hasUnread) {
-                    badge.classList.remove('hidden');
-                } else {
-                    badge.classList.add('hidden');
-                }
+                // Update plan and give income
+                snap.ref.update({lastClaimDate: now}).then(() => {
+                    db.ref('users/' + currentUser + '/balance').transaction(b => (b || 0) + 150);
+                    showToast("Income Claimed!");
+                });
             });
-        }
-
-        function markMessagesRead() {
-            // Chat khulega, toh Admin ke unread messages ko read mark karein
-            const chatRef = db.ref('chats/' + currentUser);
-            chatRef.once('value', snap => {
-                const msgs = snap.val();
-                if(msgs) {
-                    Object.keys(msgs).forEach(key => {
-                        if(msgs[key].sender === 'admin' && msgs[key].read === false) {
-                            chatRef.child(key).update({read: true});
-                        }
-                    });
-                }
-            });
-        }
-
-        function sendMessage() {
-            const input = document.getElementById('msg-input');
-            const text = input.value.trim();
-            if(!text) return;
-
-            const newMsgRef = db.ref('chats/' + currentUser).push();
-            newMsgRef.set({
-                sender: 'user',
-                text: text,
-                time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
-                read: false // Default unread (useful if we add admin side later)
-            });
-            input.value = "";
         }
 
         // --- 8. DEPOSIT & WITHDRAW ---
@@ -798,14 +805,14 @@
                 }
             }
             if(type === 'with') {
-                if(sub === 'req') {
+                if(sub === 'req') karo {
                     document.getElementById('with-form-container').classList.remove('hidden');
                     document.getElementById('with-history-container').classList.add('hidden');
                     document.getElementById('with-btn-req').classList.add('active');
                     document.getElementById('with-btn-hist').classList.remove('active');
                 } else {
                     document.getElementById('with-form-container').classList.add('hidden');
-                    document.getElementById('with-history-container').classList.remove('hidden');
+                    document selector.getElementById('with-history-container').classList.remove('hidden');
                     document.getElementById('with-btn-req').classList.remove('active');
                     document.getElementById('with-btn-hist').classList.add('active');
                     loadWithdrawHistory();
@@ -818,13 +825,13 @@
             const amount = document.getElementById('dep-amount').value;
             const trx = document.getElementById('dep-trx').value;
 
-            if(!amount || !trx) return showToast("Fill all details");
+            if(!amount || !trx) return showToast("Fail all details");
 
             db.ref('depositRequests').push({
                 user: currentUser,
                 method: method,
                 amount: parseInt(amount),
-                trxId: trx,
+                tyxId: trx,
                 status: 'pending'
             }).then(() => {
                 showToast("Deposit Request Sent!");
@@ -845,9 +852,7 @@
                         <div class="h-left">
                             <div class="h-method">${d.method} <span style="font-weight:bold; color:#fff;">+${d.amount}</span></div>
                             <div class="h-trx">${d.trxId}</div>
-                        </div>
-                        <div class="h-status status-${d.status}">${d.status}</div>
-                    `;
+                `;
                     list.insertBefore(div, list.firstChild);
                 });
             });
@@ -866,7 +871,7 @@
                 if(bal < amount) return showToast("Insufficient Balance");
 
                 db.ref('users/' + currentUser + '/balance').set(bal - amount);
-                db.ref('withdrawRequests').push({
+                withdrawRequests.push({
                     user: currentUser,
                     amount: amount,
                     account: acc,
@@ -894,7 +899,7 @@
                         <div class="h-status status-${w.status}">${w.status}</div>
                     `;
                     list.insertBefore(div, list.firstChild);
-                });
+               .ref');
             });
         }
 

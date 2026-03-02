@@ -1,1 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>PKT 10 Second Timer</title>
 
+<style>
+  body {
+    background: black;
+    color: #00ff00;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-top: 80px;
+  }
+
+  #clock {
+    font-size: 70px;
+    letter-spacing: 2px;
+  }
+
+  #countdown {
+    font-size: 50px;
+    color: cyan;
+    margin-top: 20px;
+  }
+
+  #last {
+    font-size: 42px;
+    color: yellow;
+    margin-top: 20px;
+  }
+
+  button {
+    margin-top: 30px;
+    font-size: 22px;
+    padding: 12px 30px;
+    cursor: pointer;
+  }
+</style>
+</head>
+
+<body>
+
+<div id="clock">--:--:--</div>
+<div id="countdown"></div>
+<div id="last"></div>
+
+<button onclick="start10Sec()">START 10 SEC</button>
+
+<script>
+  function updateClock() {
+    const now = new Date();
+    const options = {
+      timeZone: "Asia/Karachi",
+      hour12: false
+    };
+    document.getElementById("clock").innerText =
+      now.toLocaleTimeString("en-GB", options) + " PKT";
+  }
+
+  setInterval(updateClock, 1000);
+  updateClock();
+
+  let timer;
+
+  function start10Sec() {
+    clearInterval(timer);
+
+    const start = new Date();
+    const end = new Date(start.getTime() + 10 * 1000);
+
+    const endTime = end.toLocaleTimeString("en-GB", {
+      timeZone: "Asia/Karachi",
+      hour12: false
+    });
+
+    document.getElementById("last").innerText =
+      "LAST SECOND: " + endTime + " PKT";
+
+    let remaining = 10;
+    document.getElementById("countdown").innerText =
+      "COUNTDOWN: " + remaining;
+
+    timer = setInterval(() => {
+      remaining--;
+      document.getElementById("countdown").innerText =
+        "COUNTDOWN: " + remaining;
+
+      if (remaining === 0) {
+        clearInterval(timer);
+        document.getElementById("countdown").innerText =
+          "⏹ DONE";
+      }
+    }, 1000);
+  }
+</script>
+
+</body>
+</html>
